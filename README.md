@@ -1,9 +1,10 @@
 # Leetcode笔记 精选面试top145
-## 数组部分：
+## 数组部分
 
 ### 两数之和   返回和为target的两个元素的下标
 #### 方法一：暴力法  时间复杂度o(n2)  没有多余开辟的空间
-'<class Solution {>'
+```
+class Solution {
     public int[] twoSum(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
@@ -15,8 +16,11 @@
         throw new IllegalArgumentException("No two sum solution");
     }
 }
-#### 方法二：hash map 利用hash以空间换取时间的思想 时间复杂度为o(n) 但是要考虑如果hash冲突的问题  
-可以从这个角度考虑 不要先将所有的值都加入hash map中去，每个元素加进去的必要条件是当前这个元素和hash map中的元素没有sum为target的值，如果有的话直接返回（即如果是两个下标不同，但value相同的元素需要采取此办法）。
+```
+#### 方法二：hash map 
+* 利用hash以空间换取时间的思想 时间复杂度为o(n) 但是要考虑如果hash冲突的问题  
+* 可以从这个角度考虑 不要先将所有的值都加入hash map中去，每个元素加进去的必要条件是当前这个元素和hash map中的元素没有sum为target的值，如果有的话直接返回（即如果是两个下标不同，但value相同的元素需要采取此办法）。
+```
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -30,8 +34,10 @@ class Solution {
         throw new IllegalArgumentException("No two sum solution");
     }
 }
-2.最大连续子序列和
-这是一个典型的动态规划问题，考虑temp保存当前最大的连续自序和，但要考虑temp保存的恰是以子序列的结束点为基准，所以递推关系式为temp = max(temp+num[i],num[i]) 此处的最大和要么是跟上一个子序列相加得到的，要么就是自己。 之后res用来保存最大的temp即是结果。
+```
+### 最大连续子序列和
+* 这是一个典型的动态规划问题，考虑temp保存当前最大的连续自序和，但要考虑temp保存的恰是以子序列的结束点为基准，所以递推关系式为temp = max(temp+num[i],num[i]) 此处的最大和要么是跟上一个子序列相加得到的，要么就是自己。 之后res用来保存最大的temp即是结果。
+```
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
@@ -46,10 +52,12 @@ public:
     return res;
     }
 };
-3.买卖股票的最佳时机  (找到最大的山谷和山峰的区间)
-我们需要找出给定数组中两个数字之间的最大差值（即，最大利润）。此外，第二个数字（卖出价格）必须大于第一个数字（买入价格）。
+```
+### 买卖股票的最佳时机  (找到最大的山谷和山峰的区间)
+* 我们需要找出给定数组中两个数字之间的最大差值（即，最大利润）。此外，第二个数字（卖出价格）必须大于第一个数字（买入价格）。
 形式上，对于每组i和 j（其中 j > i）我们需要找出max(prices[j]−prices[i])。
-方法一：暴力法
+#### 方法一：暴力法
+```
 public class Solution {
     public int maxProfit(int prices[]) {
         int maxprofit = 0;
@@ -63,15 +71,16 @@ public class Solution {
         return maxprofit;
     }
 }
-复杂度分析
-时间复杂度：O(n^2)
-空间复杂度：O(1)
+```
+* 时间复杂度：O(n^2)
+* 空间复杂度：O(1)
 
-方法二：一次遍历
-假设给定的数组为：[7, 1, 5, 3, 6, 4]
-如果我们在图表上绘制给定数组中的数字，我们将会得到一个函数图
-使我们感兴趣的点是上图中的峰和谷。我们需要找到最小的谷之后的最大的峰。
-我们可以维持两个变量——minprice 和 maxprofit，它们分别对应迄今为止所得到的最小的谷值和最大的利润（卖出价格与最低价格之间的最大差值）
+#### 方法二：一次遍历
+* 假设给定的数组为：[7, 1, 5, 3, 6, 4]
+* 如果我们在图表上绘制给定数组中的数字，我们将会得到一个函数图
+* 使我们感兴趣的点是上图中的峰和谷。我们需要找到最小的谷之后的最大的峰。
+* 我们可以维持两个变量——minprice 和 maxprofit，它们分别对应迄今为止所得到的最小的谷值和最大的利润（卖出价格与最低价格之间的最大差值）
+```
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -91,12 +100,14 @@ public:
         return maxprof;
     }
 };
+```
 复杂度o(n)
-4.买卖股票的最佳时机II（可以多次买卖，让利润最大）
+### 卖股票的最佳时机II（可以多次买卖，让利润最大）
 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 一次遍历：复杂度o(n)
+```
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -110,11 +121,12 @@ public:
         return profit;
     }
 };
-5.存在重复元素
+```
+### 存在重复元素
 如果数组中有出现两次以上的元素，则返回true,否则返回false
-方法1：调用sort排序,之后遍历，一旦发现有相同的元素直接return
-复杂度o(nlogn)
-方法2：set 将元素放入set中，每次放进去的时候进行对比。
+#### 方法1：调用sort排序,之后遍历，一旦发现有相同的元素直接return    复杂度o(nlogn)
+#### 方法2：set 将元素放入set中，每次放进去的时候进行对比。
+```
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
@@ -132,12 +144,15 @@ public:
     }
 
 };
-方法3：hash表
+```
+#### 方法3：hash表
 
-6.翻转数组
-考虑利用%进行翻转，翻转k次的结果等于l=k%n次。
-首先翻转所有的数组，之后翻转l的部分，最后翻转n-l的部分即可
-时间复杂度o(n) 空间复杂度o(1)
+### 翻转数组
+* 考虑利用%进行翻转，翻转k次的结果等于l=k%n次。
+* 首先翻转所有的数组，之后翻转l的部分，最后翻转n-l的部分即可
+* 时间复杂度o(n) 空间复杂度o(1)
+
+```
 class Solution {
 public:
   void  reverse(vector<int> &nums, int left, int right)
@@ -160,9 +175,9 @@ public:
     }
 
 };
-
-7.滑动窗口最大值
-Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
+```
+### 滑动窗口最大值
+#### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 8.寻找两个有序数组的中位数 要求o(log(m+n))
 Way1:merge两个数组 之后排序 最后直接取中位数即可。 O((m+n)log(m+n))
 Way2:利用两个指针，分别指向两个数组的head，然后挪动到中位数即可。O((m+n)/2)
@@ -396,7 +411,7 @@ public:
 };
 Way2：递归
  public ListNode reverseList(ListNode head) {
-	 if(head==null) {
+     if(head==null) {
 		   return null;
 	   }  
 	ListNode last=head;
