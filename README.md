@@ -3,7 +3,7 @@
 
 ### 两数之和   返回和为target的两个元素的下标
 #### 方法一：暴力法  时间复杂度o(n2)  没有多余开辟的空间
-class Solution {
+'<class Solution {>'
     public int[] twoSum(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
@@ -15,7 +15,7 @@ class Solution {
         throw new IllegalArgumentException("No two sum solution");
     }
 }
-方法二：hash map 利用hash以空间换取时间的思想 时间复杂度为o(n) 但是要考虑如果hash冲突的问题  
+#### 方法二：hash map 利用hash以空间换取时间的思想 时间复杂度为o(n) 但是要考虑如果hash冲突的问题  
 可以从这个角度考虑 不要先将所有的值都加入hash map中去，每个元素加进去的必要条件是当前这个元素和hash map中的元素没有sum为target的值，如果有的话直接返回（即如果是两个下标不同，但value相同的元素需要采取此办法）。
 class Solution {
     public int[] twoSum(int[] nums, int target) {
