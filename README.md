@@ -506,3 +506,27 @@ public:
     return a;
     }
 ```
+### 141 环形链表
+#### way1:考虑快慢指针法，如若有环，则一定回相遇，可以类比物理中的追击问题，如果fast指针已经走到链表结尾，则说明没有环，因为有环的话也不会结束的。
+时间复杂度o(n),空间复杂度o(1)
+要注意编程的时候程序的`健壮性`，考虑特殊情况下程序的结果。
+还有就是指针是否有效的问题，因为要访问`fast->next->next`,所以需要注意while的判断条件。
+```
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL||head->next==NULL) return false;
+        ListNode *slow = head;
+        ListNode* fast = head->next;
+        while(fast!=NULL&&fast->next!=NULL){
+          if(slow==fast)
+              return true;
+         else{
+             slow = slow->next;
+             fast = fast->next->next;    
+         }
+        }
+        return false;
+    }
+};
+```
