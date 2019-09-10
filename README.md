@@ -559,3 +559,54 @@ class Solution {
     }
 }
 ```
+### 155最小栈
+#### way1：同步辅助栈
+采用利用空间换时间的方法，题目要求getMin在常数时间内返回，则需额外存储。不然无法完成。采用两个栈完成，一个用来存储数据，一个用来标注最小的数。
+`时间复杂度o(1)`  `空间复杂度o(n)`
+```
+class MinStack {
+    private Stack<Integer> data;//数据栈
+    private Stack<Integer> min;//辅助栈
+    /** initialize your data structure here. */
+    public MinStack() {
+        this.data = new Stack<Integer>();//初始化
+        this.min = new Stack<Integer>();
+    }
+    
+    public void push(int x) {
+        this.data.push(x);
+        if(this.min.isEmpty()||this.getMin()>=x) //注意辅助栈不是存储一个数据，需要考虑刚开始以及后面要用等号（考虑有多个相同最小值）
+            this.min.push(x);
+        }
+    
+    public void pop() {
+        if(this.data.isEmpty()) //如果栈空则抛出异常
+            throw new RuntimeException("your stack is empty!");
+       int val = this.data.pop();//注意判断出栈的是否是最小的元素，不是的话不用删辅助栈里面的
+       if(val == this.getMin())
+           this.min.pop();
+    }
+    
+    public int top() {
+        if(this.data.isEmpty())
+            throw new RuntimeException("your stack is empty!");
+        return this.data.peek(); //注意peek不会删除元素，pop会
+    }
+    
+    public int getMin() {
+        if(this.min.isEmpty())  
+            throw new RuntimeException("your stack is empty!");
+        return this.min.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+```
+
