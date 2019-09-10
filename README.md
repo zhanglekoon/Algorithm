@@ -530,3 +530,32 @@ public:
     }
 };
 ```
+## 栈（此后语言改为JAVA）
+### 20 有效的括号
+#### way1:此题为栈的典型应用，由于刚改为java刷题，很多小问题需要注意。 
+判断是否为有效括号首先可以这样想，一旦有个左括号，如果下一个符号不是右括号，则需要等待，若为右括号，则需要一定与它匹配，也就是说，核心问题是一个最近匹配问题。所以我们如果采用栈，遍历整个字符串，有左括号则压进去，有右括号则出栈，若匹配则继续向下遍历，若不匹配则不对(还可能出现 如果右括号多 栈空则也是不匹配  左括号多遍历完栈不为空也不匹配)  此外要注意 map的使用方法。
+'''
+class Solution {
+    public boolean isValid(String s) {
+        int len = s.length();
+        if(len==0 ) //特殊情况算匹配
+            return true;
+        if((len%2)!=0) //若为奇数则直接退出
+            return false;
+        HashMap map = new HashMap(); //一定是key,value
+        map.put(')','(');
+        map.put('}','{');
+        map.put(']','[');
+        Stack<Character> stack = new Stack(); 
+        for(char val:s.toCharArray()) //注意这种for循环以及string类的一些方法
+	{
+           if(val=='('||val=='{'||val=='[')
+            stack.push(val);
+            if((val==')'||val=='}'||val==']')&&(stack.isEmpty()||stack.pop()!=map.get(val))) //栈提前空或者不匹配都是错的
+                return false;
+        }
+        return stack.isEmpty();//巧妙转换 遍历完栈应该为空才说明正常 如不是则说明左括号多
+    }
+}
+
+'''
