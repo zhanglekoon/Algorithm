@@ -759,3 +759,22 @@ class Solution {
     }
 }
 ```
+## 344 翻转字符串（注意空间复杂度必须是o(1))
+### way1 利用双指针法 
+```
+class Solution {
+    public void reverseString(char[] s) {
+        if(s.length==0) return;
+        int left = 0;
+        int right = s.length-1;
+        while(left<=right)
+        {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
+```
