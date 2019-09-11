@@ -613,7 +613,7 @@ class MinStack {
 ### 101 对称二叉树（镜像二叉树）
 #### way1:递归解法
 此题本质上就是一个对称问题，满足对称二叉树的要求无非就是以中间为线可以对折，那么需要满足的就是1)根节点val相同 2）每个树的右子树都与另一个树的左子树镜像对称。
-`时间复杂度0(n)` `空间复杂度o(1)`
+`时间复杂度0(n)` `空间复杂度o(n)`
 ```
 /**
  * Definition for a binary tree node.
@@ -634,5 +634,51 @@ class Solution {
             return (r1.val==r2.val)&&judge(r1.left,r2.right)&&judge(r1.right,r2.left);
         
         }
+}
+//注意此方法好理解 
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null) return true; //判断根节点
+        return judge(root.left,root.right);  
+    }
+        public boolean judge(TreeNode r1,TreeNode r2){
+            if(r1==null&&r2==null) return true;
+            if(r1==null||r2==null) return false;
+            return (r1.val==r2.val)&&judge(r1.left,r2.right)&&judge(r1.right,r2.left);
+        
+        }
+}
+```
+#### way2:迭代解法
+利用层次遍历的方法对二叉树进行遍历，注意入队列的顺序按照镜像来。
+`时间复杂度o（h)`  `空间复杂度o(n)`
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+       if(root==null) return true;
+        Queue<TreeNode> c =new LinkedList<>();
+        c.add(root.left);
+        c.add(root.right);
+        while(!c.isEmpty()){
+            TreeNode t1 = c.poll();
+            TreeNode t2 = c.poll();
+            if(t1==null&&t2==null) continue;
+            if(t1==null||t2==null||(t1.val!=t2.val)) return false;
+            c.add(t1.left);
+            c.add(t2.right);
+            c.add(t1.right);
+            c.add(t2.left);    
+          }
+        return true;
+    }
 }
 ```
