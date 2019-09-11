@@ -1,4 +1,4 @@
-# Leetcode笔记 精选面试top145
+# Leetcode笔记 
 ## 数组部分
 
 ### 两数之和   返回和为target的两个元素的下标
