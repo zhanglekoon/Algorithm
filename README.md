@@ -682,3 +682,30 @@ class Solution {
     }
 }
 ```
+### 108 将有序数组转为二叉平衡搜索树
+#### way1 递归解法
+此题核心在于搜索二叉树的中序遍历一定是一个有序的数组，所以此题目核心便是一个按照中序遍历的思想去构造二叉树。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return   balance(nums,0,nums.length-1);
+    }
+   private  TreeNode  balance(int[] nums,int l,int r){
+       if(l>r) return null; //注意边界条件一定是l>r，相等时不可退出 需要将其赋值进去。
+       int mid = (l+r)>>>1;// 注意中点利用（l+r）/2可能溢出（可能回超过int的表示范围），此方法为java JDK内部实现，不会溢出。也可以采用l+（r-l)/2
+       TreeNode root = new TreeNode(nums[mid]);
+       root.left = balance(nums,l,mid-1); 
+       root.right = balance(nums,mid+1,r);
+       return root;
+   }
+}
+```
