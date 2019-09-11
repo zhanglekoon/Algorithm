@@ -609,4 +609,30 @@ class MinStack {
  * int param_4 = obj.getMin();
  */
 ```
-
+## 二叉树
+### 101 对称二叉树（镜像二叉树）
+#### way1:递归解法
+此题本质上就是一个对称问题，满足对称二叉树的要求无非就是以中间为线可以对折，那么需要满足的就是1)根节点val相同 2）每个树的右子树都与另一个树的左子树镜像对称。
+`时间复杂度0(n)` `空间复杂度o(1)`
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return judge(root,root);
+    }
+        public boolean judge(TreeNode r1,TreeNode r2){
+            if(r1==null&&r2==null) return true;
+            if(r1==null||r2==null) return false;
+            return (r1.val==r2.val)&&judge(r1.left,r2.right)&&judge(r1.right,r2.left);
+        
+        }
+}
+```
