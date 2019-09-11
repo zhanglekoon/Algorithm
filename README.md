@@ -735,3 +735,27 @@ class Solution {
     }
 }
 ```
+## 70 爬楼梯
+### way1 :此题本质上是斐波拉契数列的问题，考虑动态规划的思想 总方法应该是n-1与n-2的和，则找到递推公式dp[n]=dp[n-1]+dp[n-2]
+```
+class Solution {
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        dp[0]=1;
+        dp[1]=1;
+        for(int i=2;i<=n;i++)
+            dp[i]= dp[i-1]+dp[i-2];
+    return dp[n];
+    }
+}
+```
+### way2:利用通项公式（可能会损失精度）
+```
+class Solution {
+    public int climbStairs(int n) {
+        double sqrt_5 = Math.sqrt(5);
+        double fib_n = Math.pow((1 + sqrt_5) / 2, n + 1) - Math.pow((1 - sqrt_5) / 2,n + 1);
+        return (int)(fib_n / sqrt_5);
+    }
+}
+```
