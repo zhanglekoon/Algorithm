@@ -54,6 +54,33 @@ class Solution {
 }
 
 ```
+### 14 最大公共子字符串
+#### 首先找到字符串数组中最短的字符串(主要为了后面数组不越界)，之后利用两层循环找到最短的公共字符串。 	
+
+`时间复杂度o(n2)`  `空间复杂度o(1) `
+```
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        int length = strs.length;
+        String res = "";
+        if(length==0) return "";
+        int min_length = Integer.MAX_VALUE;
+        for (int i = 0; i < strs.length; i++) {
+            if (min_length > strs[i].length())
+                min_length = strs[i].length();
+        }
+        for(int j=0;j<min_length;j++)
+        { for(int i=1;i<length;i++)
+        {
+            if(strs[0].charAt(j)!=strs[i].charAt(j))
+                 return res;
+        }
+         res += strs[0].charAt(j);
+        }
+        return res;
+    }
+}
+```
 ### 最大连续子序列和
 * 这是一个典型的动态规划问题，考虑temp保存当前最大的连续自序和，但要考虑temp保存的恰是以子序列的结束点为基准，所以递推关系式为temp = max(temp+num[i],num[i]) 此处的最大和要么是跟上一个子序列相加得到的，要么就是自己。 之后res用来保存最大的temp即是结果。
 ```
