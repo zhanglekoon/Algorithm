@@ -72,6 +72,36 @@ public:
     }
 };
 ```
+### 13 罗马数字转为阿拉伯数字
+#### 考虑特殊的数字 若下一位比前一位大则需要特殊处理，否则直接相加即可  记得用hash表将映射关系存储。 
+`空间复杂度o(n)` `时间复杂度o(n)`
+```
+class Solution {
+    public int romanToInt(String s) {
+        int res = 0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        map.put('I',1);
+        map.put('V',5);
+        map.put('X',10);
+        map.put('L',50);
+        map.put('C',100);
+        map.put('D',500);
+        map.put('M',1000);
+        for(int i=0;i<s.length();i++)
+        {
+            if(i==s.length()-1||(map.get(s.charAt(i))>=map.get(s.charAt(i+1))))
+               res +=map.get(s.charAt(i));
+            else
+            { res += map.get(s.charAt(i+1))-map.get(s.charAt(i));
+               i++;
+            }
+          }
+        return res;
+         }
+    
+    }
+
+```
 ### 买卖股票的最佳时机  (找到最大的山谷和山峰的区间)
 * 我们需要找出给定数组中两个数字之间的最大差值（即，最大利润）。此外，第二个数字（卖出价格）必须大于第一个数字（买入价格）。
 形式上，对于每组i和 j（其中 j > i）我们需要找出max(prices[j]−prices[i])。
