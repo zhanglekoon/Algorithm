@@ -35,6 +35,25 @@ class Solution {
     }
 }
 ```
+### 7 整数反转
+#### 带有溢出的反转 考虑int溢出的问题 注意整数的表示
+```
+class Solution {
+    public int reverse(int x) {
+        long res = 0;
+        while(x!=0)
+        {
+            int pop = x%10;
+            res =res*10 + pop;
+            if(res>Integer.MAX_VALUE||res<Integer.MIN_VALUE)
+                return 0;
+            x/=10;
+        }
+        return (int)res;
+    }
+}
+
+```
 ### 最大连续子序列和
 * 这是一个典型的动态规划问题，考虑temp保存当前最大的连续自序和，但要考虑temp保存的恰是以子序列的结束点为基准，所以递推关系式为temp = max(temp+num[i],num[i]) 此处的最大和要么是跟上一个子序列相加得到的，要么就是自己。 之后res用来保存最大的temp即是结果。
 ```
