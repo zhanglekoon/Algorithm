@@ -102,6 +102,34 @@ class Solution {
     }
 
 ```
+### 387 字符串中的第一个唯一字符
+#### 第一次遍历，利用hashmap总结所有的字母出现的次数，之后再遍历一次，若value为1，则返回索引即可。 
+`时间复杂度o(n)``空间复杂度o(n)`
+```
+class Solution {
+    public int firstUniqChar(String s) {
+        if(s.length()==0) return -1;
+        if(s.length()==1) return 0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(int i=0;i<s.length();i++)
+        {
+            if(map.containsKey(s.charAt(i))==false)       
+             map.put(s.charAt(i),1);    
+            else
+            {
+                  int val = map.get(s.charAt(i))+1;
+                  map.put(s.charAt(i),val); 
+        }
+    }
+                for(int i=0;i<s.length();i++)
+                {
+                  if( map.get(s.charAt(i))==1)
+                      return i;
+                }
+        return -1;
+}
+}
+```
 ### 买卖股票的最佳时机  (找到最大的山谷和山峰的区间)
 * 我们需要找出给定数组中两个数字之间的最大差值（即，最大利润）。此外，第二个数字（卖出价格）必须大于第一个数字（买入价格）。
 形式上，对于每组i和 j（其中 j > i）我们需要找出max(prices[j]−prices[i])。
