@@ -157,6 +157,33 @@ class Solution {
 }
 }
 ```
+### 28 实现strStr()
+#### 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+注意若needle为空，则返回0(java的indexOf())  采用暴力匹配法 
+`时间复杂度o((n-m)m)``空间复杂度o(1)`
+```
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.length()==0) return 0;
+        int cnt = 0;
+        for(int i=0;i<=haystack.length()-needle.length();i++)
+        {
+
+            for(int j=0;j<needle.length();j++)
+            {
+                if(needle.charAt(j)==haystack.charAt(i+j)){
+                    cnt++;
+                }
+            }
+            if(cnt==needle.length())
+                return i;
+            else
+                cnt = 0;
+        }
+        return -1;
+    }
+}
+```
 ### 买卖股票的最佳时机  (找到最大的山谷和山峰的区间)
 * 我们需要找出给定数组中两个数字之间的最大差值（即，最大利润）。此外，第二个数字（卖出价格）必须大于第一个数字（买入价格）。
 形式上，对于每组i和 j（其中 j > i）我们需要找出max(prices[j]−prices[i])。
