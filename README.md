@@ -696,6 +696,36 @@ public:
     }
 };
 ```
+## 19 删除链表的倒数第N个节点
+注意哑节点的使用（不然无法应对特殊情况，比如删除第一个，n+1就会超出范围）
+此处使用双指针 只需遍历一次即可。
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode res = new ListNode(0);
+        res.next = head;
+        ListNode  curr = res, p = res;
+        for(int i=0;i<=n;i++)
+            p = p.next;
+    while(p!=null)
+    {
+        p = p.next;
+        curr = curr.next;
+    }
+        curr.next = curr.next.next;
+    return res.next;
+    }
+}
+
+```
 ## 栈（此后语言改为JAVA）
 ### 20 有效的括号
 #### way1:此题为栈的典型应用，由于刚改为java刷题，很多小问题需要注意。 
