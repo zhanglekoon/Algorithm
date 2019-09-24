@@ -54,6 +54,41 @@ class Solution {
 }
 
 ```
+### 2 两数相加
+#### 此题主要问题在于如何处理相加的问题，同时要生成新的链表，考虑小学学过的加法，设置进位标志`carry`,长度不一的只需在高位补0即可，最后一定要注意最后一位的carry是否会有进位。  此外，如果不设置头结点（无用，只是用来标记头部），则首节点设置会非常麻烦。
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    ListNode res = new ListNode(0);
+    ListNode p = l1, q =l2, curr = res;
+        int carry = 0;
+        while(p!=null||q!=null){
+          int x = (p!=null)?p.val: 0;
+          int y = (q!=null)?q.val: 0;
+          int temp = x+y+carry;
+          carry = temp/10; 
+          curr.next = new ListNode(temp%10);
+            //向后遍历
+            curr = curr.next;
+          if(p!=null) p = p.next;
+          if(q!=null) q = q.next;
+        }
+        if(carry==1)
+            curr.next = new ListNode(1);
+        return res.next;
+    }
+}
+
+
+```
 ### 14 最大公共子字符串
 #### 首先找到字符串数组中最短的字符串(主要为了后面数组不越界)，之后利用两层循环找到最短的公共字符串。 	
 
