@@ -86,8 +86,30 @@ class Solution {
         return res.next;
     }
 }
-
-
+```
+### 3 最长不重复子串
+#### way2:利用滑动窗口，利用set集合保存字符，首先寻找从第一个元素开始的最长的子串，找到后记下来更新为max,之后去掉此字符，从第二个开始，但注意此时不需要重新开始设置set集合，此时j指针指向的位置肯定和前面某一个字符重复，虽然无法确定，但可以继续执行，若和去掉的i重复，则j可以依次向后，若不是，i会继续加大，找到重复的那个元素，从而继续加大j，直到j到达末尾，则max就是最大的子串长度，此方法只需要o(2n）的复杂度。
+```
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s.length()==0) return 0;
+        int max = 0,j = 0,i = 0;
+        int n = s.length();
+        Set<Character> m = new HashSet<Character>();
+        while(i<n&&j<n)
+        {
+            if(!m.contains(s.charAt(j)))
+            {
+                m.add(s.charAt(j));
+                max = Math.max(max,j-i+1);
+                j++;
+            }
+            else
+                m.remove(s.charAt(i++));//无论是否与第i个元素重复，此时都需要删掉此元素，因为后面要找的子问题不包括此元素。
+          }
+        return max;
+    }
+}
 ```
 ### 14 最大公共子字符串
 #### 首先找到字符串数组中最短的字符串(主要为了后面数组不越界)，之后利用两层循环找到最短的公共字符串。 	
