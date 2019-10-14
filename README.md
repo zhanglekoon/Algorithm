@@ -35,6 +35,36 @@ class Solution {
     }
 }
 ```
+### 6 最长回文字串
+#### 回文数：中心对称的字符串 
+	利用动态规划算法，dp[i][j] = dp[i+1][j-1]&& s[i]==s[j] 利用二维数组存取所有的[i][j]取值情况，然后若为true,看字符串长度是多少，然后更新最长回文子串，最终就会找到结果。
+```
+	class Solution {
+
+public String longestPalindrome(String s) {
+
+        if (s.length() < 2) { // 单个字符肯定是回文串，直接返回s
+            return s;
+        }
+        boolean[][] dp = new boolean[s.length()][s.length()];  // 初始化一个二维数组，值默认是false
+        String result = s.substring(0,1);
+        for (int j = 0; j < s.length(); j++){
+            for (int i = 0; i <= j; i++){
+                if((j-i)<=2){
+                    dp[i][j] = s.charAt(i) == s.charAt(j);
+                }
+                else
+                dp[i][j] = s.charAt(i) == s.charAt(j) && dp[i+1][j-1];
+                if (dp[i][j]){
+                    if (j - i + 1 > result.length()){
+                        result = s.substring(i, j + 1);
+                    }
+                }
+            }
+        }
+        return result;
+}}
+```
 ### 7 整数反转
 #### 带有溢出的反转 考虑int溢出的问题 注意整数的表示
 ```
