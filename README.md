@@ -82,6 +82,70 @@ class Solution {
         return (int)res;
     }
 }
+### 8 字符串转换 atio
+#### 常规做法  遍历一遍字符串，把合格的字符串部分转换为数字。 递增一次检查是否越界
+```
+import java.util.regex.*;
+class Solution {
+    public int myAtoi(String str) {
+        str = str.trim();//清除字符串前后空格
+        if(str.equals(" ") || str.length()==0)
+            return 0;
+        int start = 0; //用于标识数字字符串开始的位置，因为可能有+或者-符号
+        int flag = 1; //标识+-
+        long res = 0;  //防止越界用long存储
+        if(str.charAt(0)=='+')
+            start = 1;
+        if(str.charAt(0)=='-')
+        {start = 1;
+            flag = -1;}
+        for(int i = start;i<str.length();i++)
+        {
+            if(str.charAt(i)<'0'||str.charAt(i)>'9')
+                return (int)res*flag;
+            else
+            {
+                res = res*10+(int)(str.charAt(i)-'0');
+                if(flag==1 && res>Integer.MAX_VALUE)
+                { res = Integer.MAX_VALUE;
+                    break;}
+                if(flag==-1 && res>Integer.MAX_VALUE)
+                { res = Integer.MIN_VALUE;
+                    break;}
+                
+            }
+          }
+        return (int)res*flag;
+        
+    }
+}	
+		
+```
+#### 利用正则表达式进行匹配 ^[\\+\\-]?\\d+  ^匹配字符串开头 [] 里面任意一个均可 \\+ \\-代表正负号 ？代表前面的可有可无 \\d代表数字 +代表多个
+注意m.end()返回匹配最后一位的后一位，substring（a，b）返回a b-1 
+```
+import java.util.regex.*;
+class Solution {
+    public int myAtoi(String str) {
+        //清空字符串开头和末尾空格（这是trim方法功能，事实上我们只需清空开头空格）
+        str = str.trim();
+        //java正则表达式
+        Pattern p = Pattern.compile("^[\\+\\-]?\\d+");
+        Matcher m = p.matcher(str);
+        int value = 0;
+        //判断是否能匹配
+        if (m.find()){
+            //字符串转整数，溢出
+            try {
+                value = Integer.parseInt(str.substring(m.start(), m.end()));
+            } catch (Exception e){
+                //由于有的字符串"42"没有正号，所以我们判断'-'
+                value = str.charAt(0) == '-' ? Integer.MIN_VALUE: Integer.MAX_VALUE;
+            }
+        }
+        return value;
+    }
+}
 
 ```
 ### 2 两数相加
