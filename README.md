@@ -205,6 +205,45 @@ class Solution {
     }
 }
 ```
+### 11盛最多水的容器
+#### way1 暴力法
+```
+class Solution {
+    public int maxArea(int[] height) {
+        int max = 0;
+        for(int i=0;i<height.length;i++)
+        {
+            for(int j=i+1;j<height.length;j++)
+            {
+                int temp = Math.min(height[i],height[j]);
+                temp = temp*(j-i);
+                if(temp>max) max = temp;
+}
+        }
+        return max;
+    }
+}
+
+```
+#### way 2 双指针法  面积取决于坐标轴差距以及最低的边 
+```
+class Solution {
+    public int maxArea(int[] height) {
+        int max = 0;
+        int left = 0;
+        int right = height.length-1;
+       while(left<right)
+       {
+           max = Math.max(max,Math.min(height[left],height[right])*(right-left));
+           if(height[left]>height[right])
+               right--;
+           else
+               left++;
+       }
+        return max;
+    }
+}
+```
 ### 14 最大公共子字符串
 #### 首先找到字符串数组中最短的字符串(主要为了后面数组不越界)，之后利用两层循环找到最短的公共字符串。 	
 
