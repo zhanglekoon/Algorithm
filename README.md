@@ -35,6 +35,48 @@ class Solution {
     }
 }
 ```
+### 15 三数之和
+#### 利用双指针和排序算法完成 注意去重的部分  O(n2)
+```
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList();
+        if(nums.length<=2) return res;
+        //快排
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]>0) break;//加快收敛速度 若此处大于0 则不会有相加为0的情况
+            if(i>0 && nums[i]==nums[i-1]) continue;//去重
+            int left = i+1;
+            int right = nums.length-1;
+            while(left<right)
+            { 
+             int sum = nums[i]+nums[left]+nums[right];
+            if(sum==0)
+            {
+                List<Integer> temp = new ArrayList();
+                temp.add(nums[i]);
+                temp.add(nums[left]);
+                temp.add(nums[right]);
+                res.add(temp);
+                //去重 
+                while(left<right && nums[left+1]==nums[left]) left++;
+                while(left<right && nums[right-1]==nums[right]) right--;
+                right--;
+                left++;
+            }
+            else if(sum<0)
+                left++;
+             else
+                 right--;
+             }
+        }
+        return res;
+}
+}
+
+```
 ### 6 最长回文字串
 #### 回文数：中心对称的字符串 
 	利用动态规划算法，dp[i][j] = dp[i+1][j-1]&& s[i]==s[j] 利用二维数组存取所有的[i][j]取值情况，然后若为true,看字符串长度是多少，然后更新最长回文子串，最终就会找到结果。
