@@ -389,6 +389,34 @@ class Solution {
 }
 }
 ```
+### 22 括号生成
+#### 利用回溯法完成 注意回溯法的套路 找到回溯出口，然后如何加进去构造括号。
+	void back(List<String> res,String temp,int left,int right,int nums)
+	res：保存最后的结果  temp：某一个结果  left：左括号个数 right:右括号个数  nums:总个数
+```
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        if(n==0) return res;
+        String temp = new String();
+        back(res,temp,0,0,n);
+        return res;
+        
+    }
+    public void back(List<String> res,String temp,int left,int right,int nums)
+    {
+    if(temp.length()==nums*2)
+    {
+        res.add(temp);
+        return;
+    }
+        if(left<nums)
+            back(res,temp+"(",left+1,right,nums);
+        if(right<left)
+            back(res,temp+")",left,right+1,nums);
+    }
+}
+```
 ### 28 实现strStr()
 #### 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
 注意若needle为空，则返回0(java的indexOf())  采用暴力匹配法 
