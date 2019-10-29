@@ -286,6 +286,37 @@ class Solution {
     }
 }
 ```
+### 29 两数相除
+#### 注意利用位运算、异或运算的性质  题目限定不允许使用除法，但我们要思考到除法的本质还是加法的累计，考虑到每次减去一个divisor太少了，复杂度过高，我们采用每次扩大divisor二倍，这样我们可以降低循环的次数，之后如果跨越太大而dividend不够的话我们可以取差值重新开始，直到最后可以得到result。
+>注意Java中的Integer.MAX_VALUE Integer.MIN_VALUE Math.abs()  
+>注意左移一位是乘2 右移一位是除2 
+>注意int类型的取值范围（-2^n,2^n-1) 根据题目所有的特殊情况都输出MAX_VALUE 
+```
+class Solution {
+    public int divide(int dividend, int divisor) {
+        if(divisor==0) return Integer.MAX_VALUE;
+        if(dividend==Integer.MIN_VALUE&&divisor==-1) return Integer.MAX_VALUE;//注意int有符号数的取值范围
+        long dvd = Math.abs((long)dividend);
+        long dvs = Math.abs((long) divisor);
+        int result = 0;
+        boolean flag = true;
+        if((dividend<0)^(divisor<0))//符号相同为0 符号不相同为1
+            flag = false;
+        while(dvd>=dvs){
+        long temp = dvs;
+        int res = 1;
+            while(dvd>=(temp<<1))
+            {
+                temp = temp<<1;
+                res = res<<1;
+                }
+            result +=res; 
+            dvd -=temp;
+        } 
+        return flag?result:-result;
+    }
+}
+```
 ### 14 最大公共子字符串
 #### 首先找到字符串数组中最短的字符串(主要为了后面数组不越界)，之后利用两层循环找到最短的公共字符串。 	
 
@@ -493,6 +524,7 @@ public:
 };
 ```
 复杂度o(n)
+
 ### 卖股票的最佳时机II（可以多次买卖，让利润最大）
 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
