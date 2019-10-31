@@ -392,6 +392,53 @@ class Solution {
     }
 
 ```
+### 34 寻找一个升序数组中一个数第一次和最后一次出现的位置
+#### 题目要求二分查找的复杂度，所以在第一次找到之后要继续利用二分查找 找到边界 利用两个函数分别寻找 目的在于逼近最左和最右
+```
+class Solution {
+    public int searchleft(int[] nums,int target){
+        int left = 0;
+        int right = nums.length-1;
+        int mid = 0;
+        int res = -1;
+        while(left<=right)
+        {
+            mid = left + (right-left)/2;
+            if(nums[mid]>=target)//注意在找到一个值之后将其向左边逼近，继续利用二分查找
+                right = mid-1;
+            if(nums[mid]<target)
+                left = mid+1;
+            if(nums[mid]==target)
+                res = mid;
+        }
+        return res;
+    }
+        public int searchright(int[] nums,int target){
+        int left = 0;
+        int right = nums.length-1;
+        int mid = 0;
+        int res = -1;
+        while(left<=right)
+        {
+            mid = left + (right-left)/2;
+            if(nums[mid]>target)
+                right = mid-1;
+            if(nums[mid]<=target) //注意在找到一个值之后将其向右边逼近，继续利用二分查找
+                left = mid+1;
+            if(nums[mid]==target)
+                res = mid;
+        }
+        return res;
+    }
+    public int[] searchRange(int[] nums, int target) {
+        int [] res = new int[2];
+         res[1] = searchright(nums,target);
+        res[0] = searchleft(nums,target);
+        return res;
+        
+    }
+}
+```
 ### 387 字符串中的第一个唯一字符
 #### 第一次遍历，利用hashmap总结所有的字母出现的次数，之后再遍历一次，若value为1，则返回索引即可。 
 `时间复杂度o(n)``空间复杂度o(n)`
