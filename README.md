@@ -544,6 +544,7 @@ public class Solution {
 * 时间复杂度：O(n^2)
 * 空间复杂度：O(1)
 
+
 #### 方法二：一次遍历
 * 假设给定的数组为：[7, 1, 5, 3, 6, 4]
 * 如果我们在图表上绘制给定数组中的数字，我们将会得到一个函数图
@@ -591,6 +592,36 @@ public:
         return profit;
     }
 };
+```
+### 36 数独
+#### 注意构建三张表  分别表示行 列 九宫格 在遍历一次的情况下对三个表进行更新
+```
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+    boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] gong = new boolean[9][9];
+        for(int i =0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                if(board[i][j]!='.')
+                {     int temp = board[i][j]-'1';//转为int  保证0-8的下表取值
+                if(row[i][temp]||col[j][temp]||gong[(i/3)*3+j/3][temp]) //注意找三张表分别存储行、列、九宫格中1-9出现的次数
+                    //（正好有九个九宫格，i代表行 j代表列 取值均为0-8） i/3为第几块九宫格 又有三行为一个 所以乘以3找到这边的行数 在加上j/3定位列所属的九宫格 一起定位到第几个九宫格，然后更新对应的temp   
+                    return false;
+                else
+                {
+                    row[i][temp] = true;
+                        col[j][temp]=true;
+                        gong[(i/3)*3+j/3][temp]=true;
+                }
+                 }
+            }
+        }
+    return true;
+    }
+}
 ```
 ### 存在重复元素
 如果数组中有出现两次以上的元素，则返回true,否则返回false
