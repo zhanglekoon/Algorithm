@@ -677,6 +677,39 @@ public:
 
 };
 ```
+### 38 报数
+#### 注意看规律 之后按照数学归纳法推理就行
+```
+class Solution {
+    public String countAndSay(int n) {
+        if(n==1) return "1";
+        String temp = "11";
+        if(n==2) return temp;
+        while(n-2>0){
+            StringBuffer str = new StringBuffer();
+            char single = temp.charAt(0);
+            int cnt=1;
+            for(int i=1;i<temp.length();i++)
+            {      
+            if(temp.charAt(i)==single)
+            {
+               cnt++;   
+            }
+            else
+            {
+                str.append(cnt).append(single);
+                single = temp.charAt(i);
+                cnt = 1;
+            }  
+            }
+            str.append(cnt).append(single);//注意将结尾的字符串加入stringbuffer中
+            temp = str.toString();//每次将生成的str转为string作为新的temp从而生成下一个数字对应的字符串 最终回生成第n个
+            n--;
+        }
+        return temp;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
