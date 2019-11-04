@@ -710,6 +710,32 @@ class Solution {
     }
 }
 ```
+### 48 旋转图像
+#### 注意按照环来旋转，可以自己画图。 
+>另一种方法也可以 首先利用转置矩阵转置 之后每一行反转即可。
+```
+class Solution {
+    public void rotate(int[][] matrix) {
+        if(matrix.length==0) return;
+        //按照环来进行旋转，从外到内，每次只旋转一个环
+        for(int loop=0;loop<matrix.length/2;loop++)//loop代表当前在旋转第几个环，一般我们只需旋转matrix.length/2
+        {
+        //在每个环中，每次需要旋转四个数的位置，直到这个环的数都被旋转完
+            int start = loop;//每个环的开始位置就是环的序号
+            int end = matrix.length-start-1;//每个环的结束位置
+            for(int i=0;i<end-start;i++)//注意每次旋转环中的所有节点 最后一个不用旋转（最后一个与第一个旋转）
+            {//注意逆时针旋转四个元素 会达到最后的效果 注意对每一个环每次是行不变还是列不变
+                int temp = matrix[start][start+i];
+                matrix[start][start+i] = matrix[end-i][start];
+                matrix[end-i][start] = matrix[end][end-i];
+                matrix[end][end-i] = matrix[start+i][end];
+                matrix[start+i][end] = temp;
+            }
+        }
+        return;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
