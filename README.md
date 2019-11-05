@@ -736,6 +736,34 @@ class Solution {
     }
 }
 ```
+### 49 字母异位词分组
+#### 注意理解题目的意思 之后我们抽象让所有的异位词对应同一个字典序，制作这样的映射：一个字典序的key对应所有的value(不同顺序） 自然我们想到的hashmap结构应该是一个key 保存字典序 value利用数组存储（List更好操作） 
+```
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>>  hash = new HashMap<>();//hashmap key保存每个字符串的字典序 List<String>存储每个字典序的不同形态
+        for(int i=0;i<strs.length;i++)
+        {
+            char[] str = strs[i].toCharArray();
+            Arrays.sort(str);//按字典排序
+            String temp = String.valueOf(str);//char转string
+            if(!hash.containsKey(temp))
+            {
+                List<String> res = new ArrayList<>();
+                res.add(strs[i]);
+                hash.put(temp,res);
+            }
+            else
+            {
+                hash.get(temp).add(strs[i]);
+            }
+        }
+        return new ArrayList<List<String>>(hash.values());//此处借用ArrayList的构造方法
+    }
+}
+
+
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
