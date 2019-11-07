@@ -873,6 +873,43 @@ public double help(double x, int n)
         }
 }
 ```
+### 55跳跃游戏
+#### way1 动态规划
+```
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        if(nums.length==1) return true; //特殊情况
+        boolean[] res = new boolean[nums.length]; //分割点，每一个点是否可以到达
+          res[0] = true;
+        for(int i=1;i<nums.length;i++)
+        {
+            for(int j=0;j<i;j++)//遍历i之前的所有的点，只要有一个可以到达则可以到达
+            {
+                if(res[j]&&j+nums[j]>=i) 
+		{
+                    res[i] = true;
+                    break;
+                }
+            }
+        }
+    return res[nums.length-1];
+    }
+}
+```
+#### way2 贪心算法
+```
+class Solution {
+    public boolean canJump(int[] nums) {
+        int reach = 0; //维护一个可以到达的最远的位置
+        for(int i=0;i<nums.length;i++){
+        if(i>reach||reach>=nums.length-1) break; //这里是不可达或者已经到达终点的判断条件
+            reach = Math.max(reach,i+nums[i]);
+        }
+    return reach>=nums.length-1;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
