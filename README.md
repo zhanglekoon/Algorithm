@@ -736,6 +736,35 @@ class Solution {
     }
 }
 ```
+### 54 螺旋矩阵
+#### 此题可以认为是旋转n*n矩阵90度的变形，两者的思路非常一致，都是一环一环输出或者swap,这个不同的是螺旋矩阵不一定是方针 那么循环的次数应该是由row和col中较小的决定 还有要着重考虑每一个环所输出的下标与环的序号之间的关系；特别注意最后两个边的判断情况
+```
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        int row = matrix.length;
+        if(row==0) return res;
+          int col = matrix[0].length;
+       
+        for(int loop=0;loop<(Math.min(row,col)+1)/2;loop++)
+        {
+        //从左到右
+            for(int i=loop;i<=col-1-loop;i++)
+                res.add(matrix[loop][i]);
+         //从右到下
+            for(int j=loop+1;j<row-loop;j++)
+                res.add(matrix[j][col-1-loop]);
+          //从下到左  注意单行的情况
+	    for(int m=col-1-1-loop;m>=loop&&(row-1-loop!=loop);m--)
+                res.add(matrix[row-1-loop][m]);
+          //从左到上  注意单列的情况
+	    for(int n=row-1-1-loop;(n>loop)&&(col-1-loop!=loop);n--)
+                res.add(matrix[n][loop]);
+        }
+        return res;
+        }
+}
+```
 ### 49 字母异位词分组
 #### 注意理解题目的意思 之后我们抽象让所有的异位词对应同一个字典序，制作这样的映射：一个字典序的key对应所有的value(不同顺序） 自然我们想到的hashmap结构应该是一个key 保存字典序 value利用数组存储（List更好操作） 
 ```
