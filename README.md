@@ -764,6 +764,86 @@ class Solution {
 
 
 ```
+### 50 pow(x,n)
+### 暴力法求解无论是递归还是非递归都会有问题  栈溢出或者超时 所以需要采用的方法为奇偶分离  如果为偶数 xn=x(n/2)*x(n/2)如果为奇数，则为xn=x(n-1)/2 x(n-1)/2 x 
+```
+class Solution {
+    public double myPow(double x, int n) {
+        if(n==0) return (double)1;
+        if(x==(double)1) return   (double)1;//1的所有次方都是1
+        if(x==(double)(-1)&& n<0) return (double)1; //-1的所有负次方都是
+        if(n>Integer.MAX_VALUE||n<=Integer.MIN_VALUE) return 0.0;
+        boolean flag = true;//flag为正，代表为正数
+        double temp = 1;
+        if(n<0)
+        {
+            n = -n;
+            flag = false;
+        }
+                
+        while(n>0)
+        {
+            if(n%2==0)  //如果为偶数
+            {
+            x *= x;
+            n>>=1; //n/2
+            }
+            else
+            {
+            temp = temp*x;
+            n--;}
+            }
+        
+        return flag==true?temp:1/temp;
+        
+    }
+
+}
+
+class Solution {
+    public double myPow(double x, int n) {
+        if(n==0) return (double)1;
+        if(x==(double)1) return   (double)1;//1的所有次方都是1
+        if(x==(double)(-1)&& n<0) return (double)1; //-1的所有负次方都是
+        if(n>Integer.MAX_VALUE||n<=Integer.MIN_VALUE) return 0.0;
+        boolean flag = true;//flag为正，代表为正数
+        double temp = 1;
+        if(n<0)
+        {
+            n = -n;
+            flag = false;
+        }                
+        temp = help(x,n);
+        return flag==true?temp:1/temp;
+        
+    }
+public double help(double x, int n)
+{
+    if(n==0) return (double)1;
+    if(n%2==0) {
+    double half = help(x,n/2);
+        return half*half;
+    }
+    else 
+    {
+        double half = help(x,n/2);
+        return half*half*x;
+        }
+}
+}
+//help第二种写法  
+public double help(double x, int n)
+{
+    if(n==0) return (double)1;
+    if(n%2==0) {
+        return help(x*x,n/2);
+    }
+    else 
+    {
+        return help(x*x,n/2)*x;
+        }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
