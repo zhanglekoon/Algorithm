@@ -910,6 +910,70 @@ class Solution {
     }
 }
 ```
+### 56 合并区间
+### 排序+遍历 
+Arrays.sort(intervals, (a, b) -> a[0] - b[0]); //此方法重写sort对比的比较函数
+还有new int[0][]的含义
+```
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        List<int []> res = new ArrayList<>();
+        if(intervals.length==0 || intervals==null)  return res.toArray(new int[0][]); 
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]); //sort是Array的静态方法 将所有按start端点进行排序
+        int i=0;
+        while(i<intervals.length){
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            while(i<intervals.length-1 && end>=intervals[i+1][0])//注意防止i越界 第一个i的条件
+            {
+                    i++;
+                    end = Math.max(intervals[i][1],end);
+            }
+            res.add(new int[]{start,end});//此时i是此次合并的末尾
+            i=i+1;//i继续向后合并
+        }
+        return res.toArray(new int[0][]);
+    }
+}
+
+```
+### Timor Attacking 
+### 本质上也是合并区间问题的变形
+```
+//贪心的思想 计算中毒时间。如果有重合，则只计算一次。贪心算法，比较相邻两个时间点的时间差，如果小于duration，就加上这个差，如果大于或等于，就加上duration即可
+class Solution { //9ms
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        if (timeSeries == null || timeSeries.length == 0) return 0;
+        int sum = 0;
+        int len = timeSeries.length;
+        for (int i = 1;i < len;i ++){
+            int diff = timeSeries[i] - timeSeries[i - 1];
+            sum += (diff < duration) ? diff : duration;
+        }
+        return sum + duration;//注意这种方法最后一次伤害没有计算进去，需要在加上一个duration 
+    }
+}
+
+
+class Solution { //6ms
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        if (timeSeries == null || timeSeries.length == 0 || duration == 0) return 0;
+        int result = 0;
+        int start = timeSeries[0];
+        int end = timeSeries[0] + duration;
+        for (int i = 1; i < timeSeries.length; i++) {
+            if (timeSeries[i] > end) {
+                result += end - start;
+                start = timeSeries[i];
+            }
+            end = timeSeries[i] + duration;
+        }
+        result += end - start;
+        return result;
+    }
+}
+```
+
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
