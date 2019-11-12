@@ -973,7 +973,24 @@ class Solution { //6ms
     }
 }
 ```
-
+### 62 不同路径
+#### DP算法
+```
+class Solution {
+    public int uniquePaths(int m, int n) {
+        //利用DP算法计算
+        int[] [] dp = new int [m] [n];
+        for(int i=0;i<m;i++) dp[i][0] = 1;
+        for(int i=0;i<n;i++) dp[0][i] = 1;
+        for(int i=1;i<m;i++)
+        {
+            for(int j=1;j<n;j++)
+            dp[i][j] = dp[i-1][j]+dp[i][j-1];
+        }
+    return dp[m-1][n-1];
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
