@@ -991,6 +991,31 @@ class Solution {
     }
 }
 ```
+### 63 sqrt函数的实现（二分法）
+```
+class Solution {
+    public int mySqrt(int x) {
+        if(x==0)  return 0;
+        double offset = 0.05d;
+        double up = x; //终点
+        double low = 0; //起始点
+        double key = x; //答案所在位置
+        while(true){
+            if((key*key+offset)>x && (key*key-offset)<x)
+            break;
+            else if(key*key>x)
+           {up = key;
+            key = (up+low)/2;
+           }
+            else if(key*key<x)
+            {low = key;
+             key = (up+low)/2;
+            }
+        }
+        return (int) key;
+            }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
