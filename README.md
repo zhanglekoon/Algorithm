@@ -1181,6 +1181,54 @@ public:
     }
 }; 
 ```
+### 73 矩阵置零
+#### 此题最简单就是引入o(mn)的空间复杂度，保存mn为0的点，之后遍历新矩阵，每当遇到0就将其对应的行、列置零；  其次也可以引入0(m+n)的空间复杂度，利用两个一维数组存储含0的行和列，之后遍历一遍数组，如果行或者列为0则将其置零； 最后可以引入O（1）的复杂度用第一行和第一列来标记是否有0，引入两个boolean变量标记第一行和第一列本身是否含0  之后根据这个结果对从（1,1）开始的地方进行遍历，将除了第一行第一列的东西做完，最后根据booleaan变量进行第一行和第一列的设置。
+```
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        if(matrix.length==0) return;
+        boolean firstrow = false;
+        boolean firstcol = false;
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                if(i!=0 && j!=0 && matrix[i][j]==0)
+                {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+                else
+                {
+                    if(i==0 && matrix[i][j]==0)
+                    firstrow = true;
+                    if(j==0 && matrix[i][j]==0)
+                    firstcol = true;
+                }
+            }
+        }
+        for(int i=1;i<matrix.length;i++)
+        {
+            for(int j=1;j<matrix[0].length;j++)
+            {
+                if(matrix[i][0]==0||matrix[0][j]==0)
+                matrix[i][j] = 0;
+            }
+        }
+            if(firstcol){
+                for(int i=0;i<matrix.length;i++){
+                    matrix[i][0] = 0;
+                }
+            }
+            if(firstrow){
+                for(int i=0;i<matrix[0].length;i++){
+                    matrix[0][i] = 0;
+                }
+            }
+
+    }
+}
+```
 ## 链表部分：
 ### 237 删除链表中的节点
 #### 此题特殊在于函数传入的是要删除的节点的指针，所以无法找到prev而进行删除工作，而题目只要求val删除，考虑将后面的元素挪过来，然后将其覆盖。
