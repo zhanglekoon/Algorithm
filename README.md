@@ -1016,6 +1016,28 @@ class Solution {
             }
 }
 ```
+### 78 子集
+##### 先排序 然后没加入一个新的元素，将res中保存的元素全部加上这个新元素  直到最后一个 res中会有所有的元素结果。
+```
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> empty = new ArrayList<>();
+        res.add(empty);
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            int size = res.size();
+            for(int j=0;j<size;j++)
+            {
+                List<Integer> temp = new ArrayList<>(res.get(j));//res.get() 获取第j个数组
+                temp.add(nums[i]);
+                res.add(temp);
+            }
+        }
+        return res; 
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
