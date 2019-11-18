@@ -1071,6 +1071,28 @@ class Solution {
     }
 }
 ```
+### 91 解码方法
+#### DP算法
+```
+class Solution {
+    public int numDecodings(String s) {
+        if(s.charAt(0)=='0') return 0;//处理特殊情况,第一个若为0则返回 不用检测
+        int len = s.length();
+        int[] dp = new int[len+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        
+        for(int i=2;i<=s.length();i++)
+        {
+            if(s.charAt(i-1)!='0')
+            dp[i] += dp[i-1];
+            if(s.charAt(i-2)=='1'||(s.charAt(i-2)=='2' && s.charAt(i-1)<'7' ))
+            dp[i] += dp[i-2];
+        }
+        return dp[len];
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
