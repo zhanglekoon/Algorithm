@@ -1038,6 +1038,39 @@ class Solution {
     }
 }
 ```
+### 79 单词搜索
+#### dfs遍历+回溯
+```
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        //遍历数组寻找数组起点
+        for(int i=0;i<board.length;i++)
+        {
+            for(int j=0;j<board[0].length;j++)
+            {
+                if(dfs(i,j,board,word,0)) return true;
+            }
+        }
+        return false;
+    }
+    //dfs+回溯
+    public boolean dfs(int x,int y,char[][] board,String word,int index){
+        //判断这个点是否越界
+        if(x>=board.length||y>=board[0].length||x<0||y<0) return false;
+        //判断这个点是否是word的当前字符
+        if(board[x][y]!=word.charAt(index)) return false;
+        //如果匹配成功，先看是否是最后一个字符
+        if(index==word.length()-1) return true;
+        //如果不是这最后一个，则匹配下一个 依次代表上下左右
+        //因为不允许重复使用,当前数组位置的字母已经使用过了,则换成其他字母，表示不允许被重复使用
+        board[x][y] = '.';
+        if(dfs(x-1,y,board,word,index+1)||dfs(x+1,y,board,word,index+1)||dfs(x,y-1,board,word,index+1)||dfs(x,y+1,board,word,index+1))  return true;
+        //之后记得复原
+        board[x][y] = word.charAt(index);
+        return false;//如果到这里还没有返回true 则说明不对
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
