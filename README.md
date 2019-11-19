@@ -1093,6 +1093,177 @@ class Solution {
     }
 }
 ```
+### 94 二叉树中序遍历
+#### 递归解法  https://leetcode-cn.com/problems/binary-tree-inorder-traversal/solution/die-dai-fa-by-jason-2/
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+       List<Integer> res = new ArrayList<>();
+       help(root,res);
+       return res;
+    }
+    public void help(TreeNode root,List<Integer> res){
+        if(root==null) return;
+        if(root.left!=null) 
+        help(root.left,res);
+        res.add(root.val);
+        if(root.right!=null) 
+        help(root.right,res);
+    }
+}
+```
+#### 迭代解法
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+       List<Integer> res = new ArrayList<>();
+       Stack<TreeNode> s = new Stack<>();
+      while(root!=null||!s.empty()){
+      while(root!=null){
+           s.push(root);
+           root = root.left;
+       }
+       TreeNode t = s.pop();
+        res.add(t.val);
+        root = t.right;
+      }
+       return res; 
+    }
+}
+```
+### 144 前序遍历
+#### 递归
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        help(root,res);
+        return res;
+    }
+    public void help(TreeNode root,List<Integer> res){
+        if(root==null) return;
+        res.add(root.val);
+        if(root.left!=null)
+        help(root.left,res);
+        if(root.right!=null)
+        help(root.right,res);
+    }
+}
+```
+#### 迭代
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        while(root!=null||!s.empty())
+        {
+            while(root!=null)
+            {
+                res.add(root.val);
+                s.push(root);
+                root=root.left;
+            }
+            TreeNode temp = s.pop();
+            root = temp.right;
+        }
+        return res;
+    }}
+ ```
+ ### 145 后序二叉树
+ #### 递归
+ ```
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        help(res,root);
+        return res;
+    }
+    public void help( List<Integer> res,TreeNode root){
+        if(root==null) return;
+        if(root.left!=null)
+        help(res,root.left);
+        if(root.right!=null)
+        help(res,root.right);
+        res.add(root.val);
+    }
+}
+ ```
+ #### 迭代
+ ```
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        while(!s.empty()||root!=null)
+        {
+        while(root!=null)
+        {
+            res.add(root.val);
+            s.push(root);
+            root = root.right;
+        }
+        TreeNode temp = s.pop();
+        root = temp.left;
+        }
+        Collections.reverse(res);//前序 根左右  后序 左右根  所以借鉴前序的遍历方法  转为根右左 最后反转即可
+        return res;
+}}
+ ```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
