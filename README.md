@@ -1264,6 +1264,135 @@ class Solution {
         return res;
 }}
  ```
+ ### 98 是否为搜索二叉树
+ #### 搜索二叉树的中序遍历一定是升序的
+ ```
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+      long num = Long.MIN_VALUE;
+      boolean flag = true;
+    public boolean isValidBST(TreeNode root) {
+      
+        if(root==null) return true;
+        if(root.left!=null)
+        isValidBST(root.left);
+        if(num>=root.val) flag = false;
+        else {
+            num = root.val;
+        }
+        if(root.right!=null)
+        isValidBST(root.right);
+        return flag;
+    }
+}
+ ```
+#### 迭代版
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+      long num = Long.MIN_VALUE;
+      boolean flag = true;
+      Stack<TreeNode> s = new Stack<>();
+    public boolean isValidBST(TreeNode root) {
+      
+        while(!s.empty()||root!=null){
+            while(root!=null)
+            {
+                s.push(root);
+                root= root.left;
+            }
+            TreeNode temp = s.pop();
+            if(num>=temp.val) flag = false;
+            else num = temp.val;
+            root = temp.right;
+        }
+        return flag;
+    }
+}
+```
+### 二叉树层次遍历
+### 注意每一层都需要放在单独的数组内，所以要用一个level来记录目前在哪一层
+```2
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+            List<List<Integer>> res = new ArrayList<List<Integer>>();
+            help(res,root,0);
+            return res;
+    }
+    public void help(List<List<Integer>> res,TreeNode root,int level){
+        if(root==null) return;
+        if(level>=res.size())
+        {
+            res.add(new ArrayList<Integer>());
+        }
+        res.get(level).add(root.val);
+        help(res,root.left,level+1);
+        help(res,root.right,level+1);
+    }
+}
+
+```
+### 锯齿状遍历二叉树
+#### 借鉴层次遍历结果 将偶数层反转即可
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+            help(res,root,0);
+            for(int i=2;i<=res.size();i+=2)
+            {
+                Collections.reverse(res.get(i-1));
+            }
+            return res;
+    }
+    public void help(List<List<Integer>> res,TreeNode root,int level){
+        if(root==null) return;
+        if(level>=res.size())
+        {
+            res.add(new ArrayList<Integer>());
+        }
+        res.get(level).add(root.val);
+        help(res,root.left,level+1);
+        help(res,root.right,level+1);
+    }
+    
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
