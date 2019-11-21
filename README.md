@@ -286,6 +286,39 @@ class Solution {
     }
 }
 ```
+### 125 验证回文串
+#### 思路很简单 删掉非法字符 转换字符大小写 之后利用双指针
+```
+class Solution {
+    public boolean isPalindrome(String s) {
+        if(s.length()==0) return true;
+        s =s.toLowerCase();
+        String res = new String();
+        for(int i=0;i<s.length();i++)
+        {
+            if((s.charAt(i)>='0'&&s.charAt(i)<='9')||(s.charAt(i)>='a'&&s.charAt(i)<='z'))
+            {
+                res +=s.charAt(i);
+            }
+        }
+        int left = 0;
+        int right = res.length()-1;
+        while(left<=right)
+        {
+            if(res.charAt(left)!=res.charAt(right))
+            {
+                return false;
+            }
+            else
+            {
+                left++;
+                right--;
+            }
+        }
+        return true;
+    }
+}
+```
 ### 29 两数相除
 #### 注意利用位运算、异或运算的性质  题目限定不允许使用除法，但我们要思考到除法的本质还是加法的累计，考虑到每次减去一个divisor太少了，复杂度过高，我们采用每次扩大divisor二倍，这样我们可以降低循环的次数，之后如果跨越太大而dividend不够的话我们可以取差值重新开始，直到最后可以得到result。
 >注意Java中的Integer.MAX_VALUE Integer.MIN_VALUE Math.abs()  
@@ -1016,6 +1049,7 @@ class Solution {
             }
 }
 ```
+### 
 ### 78 子集
 ##### 先排序 然后没加入一个新的元素，将res中保存的元素全部加上这个新元素  直到最后一个 res中会有所有的元素结果。
 ```
