@@ -1393,6 +1393,99 @@ class Solution {
     
 }
 ```
+### 重建二叉树
+#### 难
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+    class Solution {
+  
+        public TreeNode buildTree(int[] preorder, int[] inorder) {
+            if(preorder == null || inorder == null || preorder.length==0){
+                return null;
+            }
+        Map<Integer,Integer> res = new HashMap<>();
+        if(preorder.length==0) return null;
+        for(int i=0;i<inorder.length;i++)
+        {
+            res.put(inorder[i],i);
+        }
+
+            return buildCore(preorder,0,preorder.length-1,inorder,0,inorder.length-1,res);
+        }
+        private TreeNode buildCore(int[] preorder,int preSt,int preEnd,int[] inorder,int inSt,int inEnd, Map<Integer,Integer> res){
+            //前序遍历第一个节点是根节点
+            int rootValue = preorder[preSt];
+            TreeNode root = new TreeNode(rootValue);
+
+            //前序序列只有根节点
+            if(preSt == preEnd){
+                return root;
+            }
+            //遍历中序序列，找到根节点的位置
+            int rootInorder = res.get(rootValue);
+            //左子树的长度
+            int leftLength = rootInorder - inSt;
+            //前序序列中左子树的最后一个节点
+            int leftPreEnd = preSt + leftLength;
+
+            //左子树非空
+            if(leftLength>0){
+                //重建左子树
+                root.left = buildCore(preorder,preSt+1,leftPreEnd,inorder,inSt,inEnd,res);
+            }
+            //右子树非空
+            if(leftLength < preEnd - preSt){
+                //重建右子树
+                root.right = buildCore(preorder,leftPreEnd +1,preEnd,inorder,rootInorder+1,inEnd,res);
+            }
+            return root;
+        }
+    }
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer,Integer> res = new HashMap<>();
+        if(preorder == null || inorder == null || preorder.length==0
+) return null;
+        for(int i=0;i<inorder.length;i++)
+        {
+            res.put(inorder[i],i);
+        }
+        return help(preorder,0,preorder.length-1,inorder,0,inorder.length-1,res);
+    }
+    public TreeNode help(int[] preorder, int pre_start, int pre_end, int[] inorder, int ino_start, int ino_end, Map<Integer,Integer> res)
+    {
+        TreeNode root = new TreeNode(preorder[pre_start]);
+        if(pre_start==pre_end) return root;
+        int location = res.get(preorder[pre_start]);
+        int length = location-ino_start;
+       if(length>0)
+    root.left =  help(preorder,pre_start+1,pre_start+length,inorder,ino_start,ino_end,res);
+       if(length<pre_end-pre_start)
+    root.right = help(preorder,pre_start+length+1, pre_end,inorder,location+1,ino_end,res);
+        return root;
+    }
+}
+
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
