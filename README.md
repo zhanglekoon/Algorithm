@@ -1520,6 +1520,60 @@ class Solution {
 }
 
 ```
+### 被围绕的区域
+#### DFS遍历  先从边界处理 找到不用修改的o点  利用dfs找到关联的  最后遍历替换就可
+```
+class Solution {
+    public void solve(char[][] board) {
+        if(board == null|| board.length == 0 || board[0].length == 0 )
+        return;
+        //遍历第一行和最后一行
+        for(int i=0;i<board[0].length;i++)
+        {
+            if(board[0][i]=='O'){
+                search(board,0,i);
+            }
+            if(board[board.length-1][i]=='O'){
+                search(board,board.length-1,i);
+            }
+            
+        }
+        //遍历第一列和最后一列
+        for(int i=0;i<board.length;i++)
+        {
+            if(board[i][0]=='O'){
+                search(board,i,0);
+            }
+            if(board[i][board[0].length-1]=='O'){
+                search(board,i,board[0].length-1);
+            }
+        }
+        //替换
+        for(int i=0;i<board.length;i++)
+        {
+            for(int j=0;j<board[0].length;j++)
+            {
+                if(board[i][j]=='*')
+                board[i][j] = 'O';
+               else if(board[i][j]=='O')//这里不能用if 否则上面的if将其修改为O后 又会被下面的修改为X
+                board[i][j] = 'X';
+            }
+        }
+    }
+    public static void search(char[][] board,int row,int col){
+        if(row<0 || col<0 || row>=board.length || col>=board[0].length)
+        return;
+        //如果此处没有O 递归退出
+        if(board[row][col]!='O')
+        return;
+        board[row][col] = '*';
+        search(board,row-1,col);
+        search(board,row+1,col);
+        search(board,row,col-1);
+        search(board,row,col+1);
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
