@@ -1644,6 +1644,46 @@ class Solution {
     }
 }
 ```
+### 136 只出现一次的数字
+#### hashmap 
+```
+class Solution {
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(map.containsKey(nums[i]))
+            {
+                int val = map.get(nums[i]);
+                val++;
+                map.put(nums[i],val);
+            }
+            else
+            {
+                map.put(nums[i],1);
+            }
+        }
+        for(int i=0;i<nums.length;i++)
+        {
+            if(map.get(nums[i])==1)
+             res =  nums[i];
+        }
+         return res;
+        }
+    }
+```
+#### 异或运算 充分考虑题目中其他数字都出现两次
+```
+class Solution {
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        for(int i=0;i<nums.length;i++)
+        res ^=nums[i];
+            return res;
+    }
+    }
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
