@@ -1574,6 +1574,43 @@ class Solution {
     }
 }
 ```
+### 分割回文串
+#### 采用DFS和回溯法 
+```
+class Solution {
+    List<List<String>> result = new ArrayList<>();
+    public List<List<String>> partition(String s) {
+        back(s,0,new ArrayList<>());
+        return result;
+    }
+    void back(String s,int index,List<String> list)
+    {
+        //递归出口
+        if(index == s.length())
+        {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=index;i<s.length();i++)
+        {
+            String sub = s.substring(index,i+1);
+            if(huiwen(sub)){
+                list.add(sub);
+                back(s,i+1,list);//如果此sub是回文串（从index到i），则遍历此时i+1后面的字符串看是否是回文串
+                list.remove(list.size()-1);
+            }
+        }
+    }
+    boolean huiwen(String str){
+        for(int i=0;i<=str.length()/2;i++)
+        {
+            if(str.charAt(i)!=str.charAt(str.length()-1-i))
+            return false;
+        }
+        return true;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
