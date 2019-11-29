@@ -1773,6 +1773,89 @@ class LRUCache {
  * obj.put(key,value);
  */
 ```
+### 148 排序链表 
+#### 归并 
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head==null){
+            return  null;
+        }
+        if(head.next==null)
+        return  head;
+        //利用快慢指针寻找中间节点
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next!=null)
+        {
+            fast = fast.next;
+            if(fast.next==null){
+                break;
+            }
+            else{
+                fast = fast.next;
+                slow = slow.next;
+            }
+        }
+        //找到左右节点之后分割链表
+        ListNode l1 = head;
+        ListNode l2 = slow.next;
+        slow.next = null; //l1结尾为slow
+        //merge
+        l1 = sortList(l1);
+        l2 = sortList(l2);
+        return merge(l1,l2);
+    }
+    public ListNode merge(ListNode leftlist,ListNode rightlist)
+    {
+        if(leftlist==null)
+        return rightlist;
+        if(rightlist==null)
+        return leftlist;
+        //确定链表头
+        ListNode h1 = leftlist;
+        ListNode h2 = rightlist;
+        ListNode res = null; //此点只用于返回  
+        if(h1.val<h2.val)
+        {res = h1;
+        h1 = h1.next;
+        }
+        else
+        {
+            res = h2;
+            h2 = h2.next;
+        }
+        ListNode p = res;
+        while(h1!=null && h2!=null)
+        {
+            if(h1.val<h2.val)
+            {
+                p.next = h1;
+                h1 = h1.next;
+                p = p.next;
+            }
+            else{
+                p.next = h2;
+                h2 = h2.next;
+                p = p.next;
+            }
+        }
+        if(h1!=null)
+        p.next = h1;
+        if(h2!=null)
+        p.next = h2;
+    return res;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
