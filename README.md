@@ -1856,6 +1856,38 @@ class Solution {
     }
 }
 ```
+### 150 逆波兰表达式
+#### 利用辅助stack
+```
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> s = new Stack<>();
+        for(String string:tokens)
+        {
+            if(string.equals("+"))
+            {
+                s.push(s.pop()+s.pop());
+            }
+            else if(string.equals("-"))
+            {
+                s.push(-s.pop()+s.pop());
+            }
+            else if(string.equals("*"))
+            {
+                s.push(s.pop()*s.pop());
+            }
+            else if (string.equals("/"))
+            {   int temp = s.pop();
+                s.push(s.pop()/temp);
+            }
+            else
+            s.push(Integer.parseInt(string));
+        }
+        return s.pop();
+
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
