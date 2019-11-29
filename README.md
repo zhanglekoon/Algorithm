@@ -1684,6 +1684,95 @@ class Solution {
     }
     }
 ```
+### 146 LRU缓存机制
+#### 利用双向链表（空头、空尾）实现LRU，每次使用一次就删除节点，然后把此节点放在链表头部，之后利用hashmap存储节点降低复杂度
+```
+class LRUCache {
+    //双向链表
+    private class Node{
+        private int key;
+        private int value;
+        private Node left;
+        private Node right;
+        public Node(){};
+        public Node(int key,int value)
+        {
+            this.key = key;
+            this.value = value;
+        }
+    }
+    //以下定义是LRUCache类中的
+    private Node FirstTemp = new Node();
+    private Node LastTemp = new Node();
+    Map<Integer,Node> map = new HashMap<>();
+    private int capacity;
+    private int size;
+    public LRUCache(int capacity) //此类的构造函数
+    {
+        FirstTemp.right = LastTemp;
+        LastTemp.left = FirstTemp;
+        this.capacity = capacity;
+        size = 0;
+    }
+    public void del(Node node)
+    {
+     Node lefttmep = node.left;
+     Node righttemp = node.right;
+     lefttmep.right = righttemp;
+     righttemp.left = lefttmep;
+     node.left = null;
+     node.right = null;
+    }
+    public void add(Node node)
+    {
+        Node temp = FirstTemp.right;
+        node.left = FirstTemp;
+        node.right = temp;
+        FirstTemp.right = node;
+        temp.left = node;
+    }
+    public int get(int key) //每次使用时先删除这个节点 然后加到最前面 保证每次删除最后一个节点是最近最少使用的页面
+    {
+        Node node = map.get(key);
+        if(node==null)
+        return -1; 
+        del(node); 
+        add(node);
+        return node.value;
+    }
+    public void put(int key, int value) {
+        Node node = map.get(key);
+        //如果map中有这个key 则更新key对应的value
+        if(node!=null)
+        {
+            node.value = value;
+            del(node);
+            add(node);
+        }
+        else{
+            if(size<capacity){
+                size++;
+            }
+            else
+            {
+                Node tnode = LastTemp.left;
+                map.remove(tnode.key);//删除最后一个节点 在map中
+                del(tnode);//删除链表节点
+            }
+            Node newnode = new Node(key,value);
+            add(newnode);
+            map.put(key,newnode); 
+        }
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
