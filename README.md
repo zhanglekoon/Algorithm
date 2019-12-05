@@ -1936,6 +1936,33 @@ class Solution {
     }
 }
 ```
+### 171 EXCEL转换
+```
+class Solution {
+    public int titleToNumber(String s) {
+       //类比十进制的算法  325=10(3*10+2)+5 迭代进行
+       int res = 0;
+        for(int i=0;i<s.length();i++)
+        {
+        res = res*26+s.charAt(i)-'A'+1;
+        }
+        return res;
+    }
+}
+```
+```
+普通的计算方法
+class Solution {
+    public int titleToNumber(String s) {
+       int res = 0;
+        for(int i=0;i<s.length();i++)
+        {
+        res += (s.charAt(i)-'A'+1)*Math.pow(26,s.length()-1-i);
+        }
+        return res;
+    }
+}
+```
 ### 166 分数到小数
 #### 模拟除法的整个过程，注意循环，注意溢出，注意符号
 ```
