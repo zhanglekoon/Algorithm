@@ -1921,7 +1921,21 @@ class Solution {
     }
 }
 ```
-
+### 162寻找峰值
+#### 只需遍历一次即可
+```
+class Solution {
+    public int findPeakElement(int[] nums) {
+        for(int i=0;i<nums.length-1;i++)
+        {
+            //只需要看此点是否大于下一点，如果不满足则说明此点小于下一点，说明是一个上坡的趋势，一旦出现此点大于下一点则一定是拐点。如果一直没有则是一个增函数，返回最后一点即可。
+            if(nums[i]>nums[i+1])
+            return i;
+        }
+        return nums.length-1;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
