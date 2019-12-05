@@ -1888,6 +1888,40 @@ class Solution {
     }
 }
 ```
+### 152 乘积最大子序列
+#### DP 注意考虑负数 则需要引入dpmin用来保存当nums[i]为负数并且dpmax<0时最大值应该反转为dpmin[i-1]*nums[i] 之后不需要if else 因为核心目的是找到最大的 所以利用Math.max寻找即可。 dpmin的更新可以参考dpmax
+```
+如果nums[i]大于等于0
+dpmax[i-1]>0
+dpmax[i] = dpmax[i-1]*nums[i]
+dpmax[i-1] <0
+dpmax[i] = nums[i]
+如果nums[i]<0
+dpmax[i-1]>0
+dpmax[i] = nums[i]
+dpmax[i-1]<0
+dpmax[i] =dpmin[i-1]*nums[i]
+```
+```
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums.length==0) return 0;
+        int MinResult = nums[0];
+        int MaxResult = nums[0];
+        int result = nums[0];
+        for(int i=1;i<nums.length;i++)
+        {
+            int temp = MaxResult;//保存dpmax[i-1]用于更新MinResult
+            MaxResult = Math.max(MaxResult*nums[i],Math.max(nums[i],MinResult*nums[i]));
+            MinResult = Math.min(temp*nums[i],Math.min(nums[i],MinResult*nums[i]));
+            if(MaxResult>result)
+            result = MaxResult;
+        }
+        return result;
+    }
+}
+```
+
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
