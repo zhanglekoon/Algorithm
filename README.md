@@ -2002,7 +2002,20 @@ class Solution {
     }
 }
 ```
-
+### 172 阶乘后的0
+```
+class Solution {
+    public int trailingZeroes(int n) {
+    //一个数因数分解寻找其后的0只和2,5的个数有关。2肯定多于5 所以只要找5的个数就行 n/5+n/25+n/125+...
+     int cnt = 0;
+     while(n!=0)
+     {
+         cnt += n/5;
+         n=n/5;
+     }
+     return cnt;
+}}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
