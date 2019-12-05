@@ -1936,6 +1936,46 @@ class Solution {
     }
 }
 ```
+### 166 分数到小数
+#### 模拟除法的整个过程，注意循环，注意溢出，注意符号
+```
+https://leetcode-cn.com/problems/fraction-to-recurring-decimal/solution/fen-shu-dao-xiao-shu-by-leetcode/
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator==0) return new String("0");
+        //此题目不考虑抛异常 也就是除数为0的情况
+        StringBuilder res = new StringBuilder();
+        //利用异或判断结果符号 
+        if(numerator<0^denominator<0)
+            res.append("-");
+        //转为long避免溢出 因为int范围为 -2^31~~~2^31 -1
+        long  dividend = Math.abs(Long.valueOf(numerator));
+        long  divisor = Math.abs(Long.valueOf(denominator));
+        res.append(String.valueOf(dividend/divisor));//将整数部分输入
+        long  remain = dividend%divisor; //获得余数
+        if(remain==0)//如果余数为0则可以整除
+        {return res.toString();}
+        res.append(".");
+    Map<Long,Integer> map = new HashMap<>();//利用hashmap的key存储小数部分的内容，value存储位置用于插入（）
+        while(remain!=0)
+        {
+         if(map.containsKey(remain))
+         {
+             res.insert(map.get(remain),"(");
+             res.append(")");
+             break;
+         }
+         //如果map中没有，则说明没有循环
+         map.put(remain,res.length());//length这个点就是之后要插入的数组位置
+         remain *=10;
+         res.append(String.valueOf(remain/divisor));
+         remain = remain%divisor;
+        }
+        return res.toString();
+    }
+}
+```
+
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
