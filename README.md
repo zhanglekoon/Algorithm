@@ -2016,6 +2016,35 @@ class Solution {
      return cnt;
 }}
 ```
+### 179 最大数
+#### 主要是自定义排序规则
+```
+class Solution {
+    public  class Compare implements Comparator<String>{
+        public int compare(String a,String b)
+        {
+            return (b+a).compareTo(a+b);//如果b+a>a+b 返回true 则b比a大  如a=10 b=2 排序结果应为ba 而不是ab (普通排序结果为ab)
+        }
+    }
+    public String largestNumber(int[] nums) {
+        //将nums转为String
+        String[] num = new String[nums.length];
+        for(int i=0;i<nums.length;i++)
+        {
+            num[i] = String.valueOf(nums[i]);
+        }
+        //利用自定义规则进行排序
+        Arrays.sort(num,new Compare());
+        if(num[0].equals("0"))
+        return new String("0");
+            StringBuilder res = new StringBuilder();
+            for(String temp:num){
+                res.append(temp);
+            }
+            return res.toString();
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
