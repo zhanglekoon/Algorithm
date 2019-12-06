@@ -2090,6 +2090,22 @@ public class Solution {
     }
 }
 ```
+### 198 打家劫舍
+#### dp算法
+```
+class Solution {
+    public int rob(int[] nums) {
+        int[] dp = new int[nums.length+2];
+        dp[0] = 0;
+        dp[1] = 0;
+        for(int i=0;i<nums.length;i++)
+        {
+            dp[i+2] = Math.max(dp[i]+nums[i],dp[i+1]);
+        }
+        return dp[nums.length+2-1];
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
