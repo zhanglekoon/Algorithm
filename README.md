@@ -2144,6 +2144,29 @@ class Solution {
     }
 }
 ```
+### 202 快乐数
+```
+class Solution {
+    public boolean isHappy(int n) {
+        Set<Integer> temp = new HashSet<>();
+        int value = 0;
+        while(true){
+            while(n!=0){
+               value += Math.pow(n%10,2);
+               n = n/10;
+            }
+            if(value==1)
+            return true;
+            if(temp.contains(value))
+            return false;
+            //没有重复的 则还可以计算 
+            temp.add(value);
+            n = value;
+            value = 0;
+        }
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
