@@ -1574,6 +1574,44 @@ class Solution {
     }
 }
 ```
+### 200 岛屿数量
+#### 与上面的题非常类似  同样的思路可以借鉴
+```
+class Solution {
+    public int numIslands(char[][] grid) {
+        //DFS遍历 1无非两种  第一个找到的1是一个岛 然后利用BFS上下左右如果是1则改为0 如果不是则返回
+        if(grid==null||grid.length==0)
+        return 0;
+        int row = grid.length;
+        int col = grid[0].length;
+        int result = 0;
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                if(grid[i][j]=='1')
+                  {
+                      result +=1;
+                      bfs(i,j,row,col,grid);
+                  }
+            }
+        }
+        return result;
+    }
+    public void bfs(int i,int j, int row, int col, char[][] grid)
+    {
+        if(i<0||i>=row||j<0||j>=col)
+        return;
+        if(grid[i][j]=='0')
+        return;
+        grid[i][j] = '0';
+        bfs(i-1,j,row,col,grid);
+        bfs(i+1,j,row,col,grid);
+        bfs(i,j-1,row,col,grid);
+        bfs(i,j+1,row,col,grid);
+    }
+}
+```
 ### 分割回文串
 #### 采用DFS和回溯法 
 ```
