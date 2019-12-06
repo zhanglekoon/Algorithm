@@ -2045,6 +2045,51 @@ class Solution {
     }
 }
 ```
+### 190颠倒二进制位
+```
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int value = 0;
+        //思路：做一个32次循环，将数翻转即可 注意利用二进制运算解决
+        for(int i=0;i<32;i++)
+        {
+            if((n&1)==1)//n的低位与1做与运算 
+           {
+               value = (value<<1) + 1;//左移并加1（因为此位是1）  注意优先级 加括号
+               n=n>>1;
+           } 
+            else  //此位是0
+            {
+                value = value<<1; //左移一位即可
+                n=n>>1;
+            }
+        }
+        return value;
+    }
+}
+```
+### 191 1的个数
+### 与190类似
+```
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int cnt = 0;
+        for(int i=0;i<32;i++)
+        {
+            if((n&1)==1)
+            {
+                cnt++;
+                n = n>>1;
+            }
+            else
+             n = n>>1;
+        }
+        return cnt;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
