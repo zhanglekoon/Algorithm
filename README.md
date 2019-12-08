@@ -2167,6 +2167,43 @@ class Solution {
     }
 }
 ```
+### 207 课程表
+```
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        //此题本质上是有向无环图DAG的判断问题 若此图有环则不符合条件
+        int [] degree = new int[numCourses];//制作一个degree表存取每个课程的入度  二维数组中每一个都是一个边 从1指向0  每个1下标对会给0下标增加一个入度
+        for(int [] arr: prerequisites)
+        {
+            degree[arr[0]]++;//每个1下标对会给0下标增加一个入度，degree对应arr[0]的课程节点度+1
+        }
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i=0;i<degree.length;i++)
+        {
+            if(degree[i]==0) queue.add(i); //degree数组的下标为课程的编号,将入度为0的课程存储在queue中
+        }
+        while(!queue.isEmpty()){
+            Integer pre =  queue.removeFirst();//出队列中第一个
+            numCourses--;//每次出队列一个说明安排完一门课程
+            for(int [] req:prerequisites) //遍历prerequisties 寻找此课程所贡献的入度 根据拓扑排序规则 此课程贡献的入度全部删除 也就是其所有链接的点的入度减一 如果减完入度为0则将此课程加入queue 否则继续 如果能安排完所有的课程 则说明成功  
+            {
+                if(req[1]!=pre) continue;
+                else
+                {
+                    degree[req[0]]--;
+                    if(degree[req[0]]==0)
+                    queue.add(req[0]);
+                }
+            }
+        }
+        if(numCourses==0)
+        return true;
+        else
+        return false;
+    }
+}
+
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
