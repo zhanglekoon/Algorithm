@@ -2204,6 +2204,30 @@ class Solution {
 }
 
 ```
+### 204 计数质数 （小于n的质数，不包括n）
+```
+class Solution {
+    public int countPrimes(int n) {
+        boolean [] film = new boolean[n];
+        int result = 0;
+        //一个数是质数，则它的倍数都不可能是质数
+       Arrays.fill(film,true);
+        for(int i=2;i<n;i++){
+            if(film[i]==true)
+            {
+                for(int j=i*2;j<n;j+=i)
+                film[j] = false;
+            }
+        }
+       for(int i=2;i<n;i++)
+       {
+           if(film[i]==true)
+           result++;
+       }
+        return result;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
