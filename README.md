@@ -2228,6 +2228,76 @@ class Solution {
     }
 }
 ```
+### 208 trie树
+#### 理解字典树、前缀树的组织方式 尤其是树的数据结构 与二叉树不同的是 他需要一个26的一维数组 
+```
+class Trie {
+    class TrieNode{
+        private boolean status;//指定此点对应的单词是否在前缀树中存在 
+        private TrieNode[] nexts; 
+        public TrieNode(){
+            status = false;
+            nexts = new TrieNode[26];
+        }
+    }
+    //root节点
+    TrieNode root = new TrieNode();
+    //此树以root为起点，沿途的树组织起来，在最后一个节点利用status表明此单词存在 沿途其他的不关注 也不赋值 本质使用单词的字典序定位
+    /** Initialize your data structure here. */
+    public Trie() {
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        if(word==null)
+        return;
+        TrieNode node = root;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i)-'a';
+            if(node.nexts[index] == null)
+                node.nexts[index] = new TrieNode();
+            node = node.nexts[index];
+        }
+        node.status = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        if(word==null)
+        return false;
+           TrieNode node = root;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i)-'a';
+            if(node.nexts[index]==null)
+              {return false;}  
+            node = node.nexts[index];
+        }
+        return node.status;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+      if(prefix==null)
+        return false;
+           TrieNode node = root;
+        for(int i=0;i<prefix.length();i++){
+            int index = prefix.charAt(i)-'a';
+            if(node.nexts[index] == null)
+                return false;
+            node = node.nexts[index];
+        }
+        return true;   
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
