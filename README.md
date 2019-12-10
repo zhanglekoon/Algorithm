@@ -2204,6 +2204,49 @@ class Solution {
 }
 
 ```
+###210 课程表2  与1不同的是需要输出课表排序列表
+```
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+                //此题本质上是有向无环图DAG的判断问题 若此图有环则不符合条件
+        int [] degree = new int[numCourses];//制作一个degree表存取每个课程的入度  二维数组中每一个都是一个边 从1指向0  每个1下标对会给0下标增加一个入度
+         //ArrayList<Integer> result = new ArrayList<>();
+         int[] result = new int[numCourses];
+         int index = 0;
+        for(int [] arr: prerequisites)
+        {
+            degree[arr[0]]++;//每个1下标对会给0下标增加一个入度，degree对应arr[0]的课程节点度+1
+        }
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i=0;i<degree.length;i++)
+        {
+            if(degree[i]==0) queue.add(i); //degree数组的下标为课程的编号,将入度为0的课程存储在queue中
+        }
+        while(!queue.isEmpty()){
+            Integer pre =  queue.removeFirst();//出队列中第一个
+            numCourses--;//每次出队列一个说明安排完一门课程
+            result[index++] = pre;
+            for(int [] req:prerequisites) //遍历prerequisties 寻找此课程所贡献的入度 根据拓扑排序规则 此课程贡献的入度全部删除 也就是其所有链接的点的入度减一 如果减完入度为0则将此课程加入queue 否则继续 如果能安排完所有的课程 则说明成功  
+            {
+                if(req[1]!=pre) continue;
+                else
+                {
+                    degree[req[0]]--;
+                    if(degree[req[0]]==0)
+                    queue.add(req[0]);
+                }
+            }
+        }
+        if(numCourses==0)
+        {
+        return result;
+        }
+        
+        else
+        return new int[0];
+    }
+}
+```
 ### 204 计数质数 （小于n的质数，不包括n）
 ```
 class Solution {
@@ -2297,6 +2340,56 @@ class Trie {
  * boolean param_2 = obj.search(word);
  * boolean param_3 = obj.startsWith(prefix);
  */
+```
+### 212 单次搜索 DFS+Trie 
+```
+class Solution {
+    List<String> result = new ArrayList<>();
+    public List<String> findWords(char[][] board, String[] words) {
+        TrieNode trieNode = buildTrie(words);
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                dfs (board, i, j, trieNode);
+            }
+        }
+        return result;
+    }
+    public void dfs(char[][] board, int i, int j, TrieNode trieNode) {
+        char c = board[i][j];
+        if ('#' == c || null == trieNode.next[c - 'a']) return;
+        trieNode = trieNode.next[c - 'a'];
+        if (null != trieNode.word) {
+            result.add(trieNode.word);
+            trieNode.word = null;     //去重
+        }
+        board[i][j] = '#';
+        if (i > 0) dfs(board, i - 1, j ,trieNode);
+        if (j > 0) dfs(board, i, j - 1, trieNode);
+        if (i < board.length - 1) dfs(board, i + 1, j, trieNode);
+        if (j < board[0].length - 1) dfs(board, i, j + 1, trieNode);
+        board[i][j] = c;
+    }
+    private class TrieNode {
+        private TrieNode[] next = new TrieNode[26];
+        private String word;
+    }
+    public TrieNode buildTrie(String[] words) {
+        TrieNode root = new TrieNode();
+        for (String word : words) {
+            TrieNode trieNode = root;
+            for (char c : word.toCharArray()) {
+                int i = c - 'a';
+                if (null == trieNode.next[i]) {
+                    trieNode.next[i] = new TrieNode();
+                }
+                trieNode = trieNode.next[i];
+            }
+            trieNode.word = word;
+        }
+        return root;
+    }
+}
+
 ```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
