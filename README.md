@@ -2407,6 +2407,75 @@ class Solution {
     }
 }
 ```
+### 230 二叉搜索树中第K小元素
+#### 中序遍历是升序的结果排序 
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int num,res;
+    public int kthSmallest(TreeNode root, int k) {
+            num = k;
+            search(root);
+            return res;
+    }
+    public void search(TreeNode root)
+    {
+            if(root==null || num<0) return;
+            search(root.left);
+            num--;
+            if(num==0)  
+            res = root.val;
+            search(root.right);
+    }
+}
+```
+### 203 计算器II
+#### 去除空格 先算乘除  再算加减
+```
+class Solution {
+    public int calculate(String s) {
+        s = s.replaceAll(" ","");
+        int len = s.length();
+        int num = 0;
+        int  result =0;
+        char flag = '+';
+        Stack<Integer> stack = new Stack<>(); 
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i)>='0'){
+                num = num*10 + (s.charAt(i)-'0');
+            }
+            if(s.charAt(i)<'0'||i ==s.length()-1)
+            {
+                if(flag=='+')     stack.push(num);
+                else if(flag=='-')     stack.push(-num);
+                else
+                {
+                    int temp = (flag=='*')?stack.peek() * num: stack.peek()/num;
+                    stack.pop();
+                    stack.push(temp);
+                }
+                //更新num与flag
+                num = 0;
+                flag = s.charAt(i);
+            }
+        }
+        while(!stack.empty())
+        {
+            result += stack.pop();
+        }
+        return result;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
