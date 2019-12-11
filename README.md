@@ -2391,6 +2391,22 @@ class Solution {
 }
 
 ```
+### 215 数组中第K大的元素
+#### 优先队列是一种数据结构 底层依托堆排序 因为PriorityQueue默认升序 则数组最后一位是最大的 保持头部一直是第K大元素
+```
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        //优先队列默认升序 
+        for(int val:nums){
+            pq.add(val);
+            if(pq.size()>k)
+            pq.poll();
+        }
+        return pq.poll();
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
