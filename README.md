@@ -2501,6 +2501,33 @@ class Solution {
     }
 }
 ```
+### 238 除自身以外的数组乘积 (不可用除法）
+```
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int[] left = new int[nums.length];
+         int[] right = new int[nums.length];
+         int [] result = new int[nums.length]; 
+         left[0] = nums[0];
+         right[nums.length-1] = nums[nums.length-1];
+         for(int i=1;i<nums.length;i++)
+         {
+             left[i] = left[i-1]*nums[i];
+         }
+        for(int i=nums.length-1-1;i>=0;i--)
+         {
+             right[i] = right[i+1]*nums[i];
+         }
+         for(int i=0;i<nums.length;i++){
+             if(i==0) result[i] = right[i+1];
+             else if(i==nums.length-1) result[i] = left[i-1];
+             else
+             result[i] = left[i-1]* right[i+1];
+         }
+         return result;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
