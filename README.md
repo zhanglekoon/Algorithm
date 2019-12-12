@@ -2476,6 +2476,31 @@ class Solution {
     }
 }
 ```
+### 二叉树的最近公共祖先（可以为两个节点中的一个）
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       //考虑递归出口 若root为空则返回null 若root为p或者q则为结果  
+       //pq不为空也不是root节点则遍历左子树与右子树 重复此过程 会有四种情况 
+       if(root==null||root==p||root==q) return root; 
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        if(left==null&&right==null) return null; //都找不到 则返回null
+        if(left==null&&right!=null) return right; //right有p或者q 则返回right
+        if(left!=null&&right==null) return left;// left有p或者q 则返回left
+        return root; //如果都有 则返回root 
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
