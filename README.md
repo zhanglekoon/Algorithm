@@ -2528,6 +2528,27 @@ class Solution {
     }
 }
 ```
+### 搜索二维数组
+```
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+    //注意从右上角开始搜索
+        if(matrix==null||matrix.length<1||matrix[0].length<1) return false; 
+        int row = 0, col = matrix[0].length - 1;
+        //row col合格
+         while(row>=0&&row<matrix.length&&col>=0&&col<matrix[0].length)
+        {
+            if(matrix[row][col]>target)
+              col--;
+            else if(matrix[row][col]<target)
+              row++;
+            else 
+                return true;
+        }
+        return false;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
