@@ -2549,6 +2549,28 @@ class Solution {
     }
 }
 ```
+### 242 有效的字母异位词
+#### 保证每个符号出现次数一直
+```
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length())
+        return false;
+        int[] count = new int[26];
+        for(int i=0;i<s.length();i++)
+        {
+            count[s.charAt(i)-'a']++;//s对应的id++
+            count[t.charAt(i)-'a']--;//t对应的id--，最后count中都是0就是相同的
+        }
+        for(int c:count)
+        {
+            if(c!=0)
+            return false;
+        }
+        return true;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
