@@ -2571,6 +2571,31 @@ class Solution {
     }
 }
 ```
+### 279 完全平方数
+#### dp没看懂  用的数学方法 任何一个数最多只需要四个完全平方数来表示
+```
+class Solution {
+    public int numSquares(int n) {
+        while(n%4==0)
+        {
+            n /= 4;}
+            if(n%8==7)
+            return 4;
+            for(int i=1;i<=n;i++)
+            {
+                if(i*i==n)
+                return  1;
+            }
+            for(int i=1;i*i<=n;i++)
+            {
+                int temp = (int)Math.sqrt(n-i*i);
+                if((i*i+temp*temp)==n && i>0&&temp>0)
+                return 2;
+            }
+            return 3;
+        }
+    }
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
