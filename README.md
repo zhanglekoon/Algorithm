@@ -2596,6 +2596,36 @@ class Solution {
         }
     }
 ```
+### 寻找重复数 不可修改元素组 空间复杂度为1 
+#### 巧妙转换为二分查找问题  简单思路 为先排序 然后遍历一遍  如果那个数跟前面重复了则说明找到了
+```
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int left = 1;
+        int right = nums.length-1;
+        int mid = 0;
+        int count = 0;
+        while(left<right){
+            mid = left+ (right-left)/2;
+            count = 0;
+            for(int num:nums)
+            {
+                if(num<=mid)
+                count++;
+            }
+            if(count<=mid)
+            {
+                left = mid+1;
+            }
+            if(count>mid)
+            {
+                right = mid;
+            }
+        }
+        return left;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
