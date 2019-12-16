@@ -2626,6 +2626,80 @@ class Solution {
     }
 }
 ```
+### 289 生命游戏
+### 因为不可以用覆盖此个点之前的状态 因为还要用于后续计算 所以引入二位数编码  后续解码即可 主要就是更新细胞的状态
+```
+class Solution {
+    public void gameOfLife(int[][] board) {
+        int row = board.length;
+        int col = board[0].length;
+        //00（代表修改前为0，修改后为0）代表0 11代表1  这个不能用别的数字代替  不然统计就不对了 因为第一次统计的1肯定个数就不够呀  01代表2  10代表3 
+         for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++)
+            {
+                int value = 0;
+                //上
+                if(i>0)
+                {
+                    value += (board[i-1][j]==1||board[i-1][j]==3)?1:0;
+                }
+                //下
+                if(i<row-1)
+                {
+                    value += (board[i+1][j]==1||board[i+1][j]==3)?1:0;
+                }
+                //左
+                if(j>0)
+                {
+                    value += (board[i][j-1]==1||board[i][j-1]==3)?1:0;
+                }
+                //右
+                if(j<col-1)
+                {
+                    value += (board[i][j+1]==1||board[i][j+1]==3)?1:0;
+                }
+                //左上 
+                if(j>0&&i>0)
+                {
+                    value += (board[i-1][j-1]==1||board[i-1][j-1]==3)?1:0;
+                }
+                //左下
+                if(j>0&&i<row-1)
+                {
+                     value += (board[i+1][j-1]==1||board[i+1][j-1]==3)?1:0;
+                }
+                //右上
+                if(i>0&&j<col-1)
+                {
+                     value += (board[i-1][j+1]==1||board[i-1][j+1]==3)?1:0;
+                }
+                //右下
+                if(i<row-1&&j<col-1)
+                {
+                     value += (board[i+1][j+1]==1||board[i+1][j+1]==3)?1:0;
+                }
+
+                if(board[i][j]==1)
+                {
+                 if(value<2||value>3) board[i][j]=3;//1-0 
+                else if(value==3||value==2) board[i][j]=1;
+                }
+                else
+                {
+                    if(value==3) board[i][j]=2;
+                }
+            }
+        }
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++)
+            {
+                if(board[i][j]==3) board[i][j] = 0; 
+                else if(board[i][j]==2) board[i][j] = 1;
+            }}
+    }
+}
+
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
