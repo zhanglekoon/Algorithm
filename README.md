@@ -2722,6 +2722,28 @@ class Solution {
     }
 }
 ```
+### 322 零钱兑换 dp算法
+```
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int[]  dp = new int[amount+1];
+        dp[0] = 0;
+        for(int i=1;i<=amount;i++)
+        {
+            dp[i] = amount+1;
+        }
+         for(int i=1;i<=amount;i++){
+             for(int j=0;j<coins.length;j++)
+             {
+                 //如果此处可以用j来表示
+                 if(coins[j]<=i)
+                 dp[i] = Math.min(dp[i],dp[i-coins[j]]+1);
+             }
+         }
+         return dp[amount]<=amount?dp[amount]:-1;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
