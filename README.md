@@ -2700,6 +2700,28 @@ class Solution {
 }
 
 ```
+### 300 最长上升子序列
+#### 利用dp算法来解决 cell数组用于存储此节点的上升子序列最大值 利用双层遍历即可解决
+```
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+       if(nums.length==0) return 0;
+        int[] cell = new int[nums.length];
+        for(int i=0;i<nums.length;i++)
+        {
+            cell[i] = 1;//初始化为1
+        }
+        for(int i=0;i<nums.length;i++){
+            for(int j=i;j>=0;j--)
+            {
+                if(nums[j]<nums[i])
+                cell[i] = Math.max(cell[i],cell[j]+1);
+            }
+        }
+        return Arrays.stream(cell).max().getAsInt();
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
