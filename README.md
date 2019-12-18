@@ -2764,6 +2764,41 @@ class Solution {
     }
 }
 ```
+### 350 两个数组的交集
+### 先排序+双指针
+```
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i=0,j=0;i<nums1.length&&j<nums2.length;)
+        {
+            if(nums1[i]==nums2[j])
+            {
+                arr.add(nums1[i]);
+                i++;
+                j++;
+            }
+            else if(nums1[i]>nums2[j])
+            {
+                j++;
+            }
+            else
+            {
+                i++;
+            }
+        }
+       int [] result = new int[arr.size()];
+       int e = 0;
+       for(int i:arr)
+       {
+           result[e++] = i;
+       }
+       return result;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
