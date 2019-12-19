@@ -2820,6 +2820,35 @@ class Solution {
     }
 }
 ```
+### 328 奇偶链表
+#### 原地翻转 注意前后处理的逻辑关系 注意保存中间的节点
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode pre = head;
+        ListNode cur = head.next;
+        while(cur!=null&&cur.next!=null)
+        {
+            ListNode temp = pre.next;
+            pre.next = cur.next;
+            cur.next = cur.next.next;
+            pre.next.next = temp;
+            pre = pre.next;
+            cur = cur.next;
+        }
+        return head;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
