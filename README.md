@@ -2799,6 +2799,27 @@ class Solution {
     }
 }
 ```
+### 324 摆动排序II
+#### 先对数组进行排序 然后从后向前进行穿插
+```
+class Solution {
+    public void wiggleSort(int[] nums) {
+        int length = nums.length;
+        Arrays.sort(nums);
+        int[] temp = new int[length];
+        for(int i=0;i<length;i++){
+            temp[i] = nums[i];
+        }
+        int k = length-1;
+        for(int i=1;i<length;i+=2){
+            nums[i] = temp[k--];
+        }
+        for(int i=0;i<length;i+=2){
+            nums[i] = temp[k--];
+        }
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
