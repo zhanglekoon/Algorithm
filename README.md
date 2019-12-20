@@ -2849,6 +2849,76 @@ class Solution {
     }
 }
 ```
+### 334 递增的三元序列
+```
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+        //双指针实现  无需连续
+        int p1 = Integer.MAX_VALUE;
+        int p2 = Integer.MAX_VALUE;
+        for(int m:nums){
+            if(m<=p1) p1 = m;
+            else if(m<=p2) p2 = m;
+            else  return true;
+        }
+        return false;
+    }
+}
+```
+### 341 扁平化嵌套
+#### 仔细阅读接口函数 递归调用即可 
+```
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * public interface NestedInteger {
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     public List<NestedInteger> getList();
+ * }
+ */
+public class NestedIterator implements Iterator<Integer> {
+    Queue<Integer> res = new LinkedList<>();
+    public NestedIterator(List<NestedInteger> nestedList) {
+        get(nestedList);
+    }
+    public void get (List<NestedInteger> nestedList)
+    {
+        for(NestedInteger temp:nestedList)
+        {
+            if(temp.isInteger())
+            res.offer(temp.getInteger());
+            else
+            get(temp.getList());
+        }
+    }
+
+    @Override
+    public Integer next() {
+        return res.poll();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !res.isEmpty();
+    }
+}
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i = new NestedIterator(nestedList);
+ * while (i.hasNext()) v[f()] = i.next();
+ */
+
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
