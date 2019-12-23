@@ -2407,6 +2407,55 @@ class Solution {
     }
 }
 ```
+###  347 数组中前k大元素
+```
+class Solution {
+public List<Integer> topKFrequent(int[] nums, int k) {
+        // 使用字典，统计每个元素出现的次数，元素为键，元素出现的次数为值
+        HashMap<Integer,Integer> map = new HashMap();
+        for(int num : nums){
+            if (map.containsKey(num)) {
+               map.put(num, map.get(num) + 1);
+             } else {
+                map.put(num, 1);
+             }
+        }
+        // 遍历map，用最小堆保存频率最大的k个元素
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer a, Integer b) {
+                return map.get(a) - map.get(b); 
+                //重写的原因在于要对比的是a和b在map中对应的value  
+                //注意: a-b 是升序排列  b-a是降序排列 
+                //此处需要与最小的对比 则需要升序排列 但不是对比ab本身         
+                }
+        });
+        for (Integer key : map.keySet()) {
+            if (pq.size() < k) {
+                pq.add(key);
+            } else if (map.get(key) > map.get(pq.peek())) {
+                pq.remove();
+                pq.add(key);
+            }
+        }
+        // 取出最小堆中的元素，出现的频次从小到大
+        int [] temp = new int[k];
+        for(int i=0;i<k;i++)
+        {
+            temp[i] = pq.remove();
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int u=k-1;u>=0;u--)
+        {
+            res.add(temp[u]);
+        }
+        return res;
+    }
+}
+
+
+```
+
 ### 230 二叉搜索树中第K小元素
 #### 中序遍历是升序的结果排序 
 ```
