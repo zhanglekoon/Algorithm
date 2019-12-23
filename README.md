@@ -2407,6 +2407,28 @@ class Solution {
     }
 }
 ```
+### 378 有序矩阵中第k小的元素
+#### 注意优先队列的compare方法 
+```
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+PriorityQueue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer a, Integer b) {
+                return b-a; 
+                //注意: a-b 是升序排列  b-a是降序排列      
+                }
+        });
+        for (int i = 0; i < matrix.length; ++i) {
+            for (int j = 0; j < matrix[i].length; ++j) {
+                q.add(matrix[i][j]);
+                if (q.size() > k) q.poll();
+            }
+        }
+        return q.poll();
+    }
+}
+```
 ###  347 数组中前k大元素
 ```
 class Solution {
