@@ -2990,6 +2990,47 @@ public class NestedIterator implements Iterator<Integer> {
  */
 
 ```
+### 395 至少有k个重复字符的最长字串
+#### 分治法
+```
+class Solution {
+    public int longestSubstring(String s, int k) {
+        return help(s,k,0,s.length()-1);//left为左边的入口，right为字符串最后一个下标
+    }
+    public int help(String s,int k,int left, int right)
+    {
+        if(left>right)
+        return 0;
+        int[] cnt = new int[26];
+        for(int i=0;i<26;i++)
+        cnt[i] = 0;//初始化 
+        for(int index=left;index<=right;index++)
+        {
+            cnt[s.charAt(index)-'a']++;
+        }
+        //修改left位置
+        while(left<=right&&cnt[s.charAt(left)-'a']<k)
+        {
+            cnt[s.charAt(left)-'a']--;
+            left++;
+        }
+        //修改right位置
+         while(left<=right&&cnt[s.charAt(right)-'a']<k)
+        {
+            cnt[s.charAt(right)-'a']--;
+            right--;
+        }
+        //寻找最大的值
+        for(int index=left+1;index<right;index++)
+        {
+            if(cnt[s.charAt(index)-'a']<k)//如果有一点字符的出现次数不满足k次，则结果在他两边，利用分治解决
+            return Math.max(help(s,k,left,index-1),help(s,k,index+1,right));
+
+        }
+        return right-left+1;
+    }
+}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
