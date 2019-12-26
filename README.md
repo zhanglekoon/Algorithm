@@ -3031,6 +3031,30 @@ class Solution {
     }
 }
 ```
+### 454 四数相加
+#### 正负相加 利用hashmap  map.getOrDefault(key,default) 如果map中有这个key,则返回对应的value 否则返回default
+```
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        Map<Integer,Integer> map = new HashMap<>();
+        int count = 0;
+        for(int i=0;i<A.length;i++)
+        {
+            for(int j=0;j<B.length;j++)
+            {
+                map.put(A[i]+B[j],map.getOrDefault(A[i]+B[j],0)+1);
+            }
+        }
+        for(int i=0;i<C.length;i++)
+        {
+            for(int j=0;j<D.length;j++)
+            {
+               count += map.getOrDefault(-C[i]-D[j],0);
+            }
+        }
+        return count;
+}}
+```
 ### 滑动窗口最大值
 #### Way1： 暴力解法 创建新数组存取res，之后利用两层for循环逐一挪动窗口并进行判断，将此窗口的最值插入res中即可。 O（n*k）k为windows大小
 ### 寻找两个有序数组的中位数 要求o(log(m+n))
