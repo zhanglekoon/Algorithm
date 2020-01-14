@@ -3384,6 +3384,47 @@ public:
 	
 }
 ```
+### 23 合并K个排序链表
+#### 
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<> (new Comparator<ListNode>() {
+            public int compare(ListNode l1,ListNode l2){
+                    return l1.val-l2.val;
+                    //优先队列默认是最小堆（comparator的方法l1-l2） 重写 comparator方法是写对比的规则（l2-l1则为最大堆） 此处重写只是为了改变判断的内容 为链表的val而不是节点
+                    //
+            }
+          
+        });
+        for(ListNode l:lists)//遍历链表 将各个表的表头放入优先队列 
+        {
+            if(l!=null)
+            pq.add(l);
+        }
+        ListNode head = new  ListNode(0); //新的表头
+        head.next = null;
+        ListNode tail = head;
+        while(!pq.isEmpty())
+        {
+            tail.next = pq.poll();//拿到队列里最小的元素  
+            tail = tail.next; 
+            if(tail.next!=null)
+             pq.add(tail.next);//将拿走的元素的下一个元素放入queue
+             tail.next = null;//将此新节点的next为null
+        }
+        return head.next;
+    }
+}
+```
 ### 234 回文链表
 #### Way1 对链表进行计数，将其一半压入栈中，然后与另一部分进行对比，即可。
 时间复杂度o(n) 空间复杂度o(n)
