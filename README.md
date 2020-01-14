@@ -710,6 +710,27 @@ public:
 
 };
 ```
+### 9回文数
+#### 最简单的方法就是转为字符串 然后利用两个指针从前和后对比 下面是利用数学方法解决  
+```
+class Solution {
+    public boolean isPalindrome(int x) {
+        if(x<0) return false;
+        if(x==0) return true;
+        int div = 1;
+        while(x/div>=10) div*=10;//获得首位
+        while(x>0)
+        {
+            int left = x/div;
+            int right = x%10;
+            if(left!=right) return false;
+            x = (x % div) /10; //去掉x的头和尾 保留中间的数字
+            div/=100; // 用于下次更新的div应该比之前小100
+        }
+        return true;
+    }
+}
+```
 ### 38 报数
 #### 注意看规律 之后按照数学归纳法推理就行
 ```
