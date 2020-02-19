@@ -49,6 +49,99 @@ class Solution {
     }
 }
 ```
+### 29 顺时针打印矩阵
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+```
+##剑指offer
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printMatrix(int [][] array) {
+        ArrayList<Integer> result = new ArrayList<Integer> ();
+        if(array.length==0) return result;
+        int n = array.length,m = array[0].length;
+        if(m==0) return result;
+        int layers = (Math.min(n,m)-1)/2+1;//这个是层数
+        for(int i=0;i<layers;i++){
+            for(int k = i;k<m-i;k++) result.add(array[i][k]);//左至右
+            for(int j=i+1;j<n-i;j++) result.add(array[j][m-i-1]);//右上至右下
+            for(int k=m-i-2;(k>=i)&&(n-i-1!=i);k--) result.add(array[n-i-1][k]);//右至左
+            for(int j=n-i-2;(j>i)&&(m-i-1!=i);j--) result.add(array[j][i]);//左下至左上
+        }
+        return result;      
+    }
+}
+## leetcode
+class Solution {
+    public int[] spiralOrder(int[][] matrix) {
+         if(matrix.length==0)
+         return new int[0];
+         if(matrix[0].length==0)
+         return new int[0];
+         ArrayList<Integer> array = new ArrayList<>();
+         int i=0,j=0,m=matrix.length,n=matrix[0].length;
+         while(i<=(m-1)/2&&j<=(n-1)/2)
+         {
+             //从左到右
+             for(int col=j;col<=n-1-j;col++)
+             array.add(matrix[i][col]);
+             //从上到下
+             for(int row=i+1;row<=m-i-1;row++)
+             array.add(matrix[row][n-1-j]);
+             //从右到左
+             for(int col=n-2-j;col>=j&&(m-i-1!=i);col--) //避免行重复
+             array.add(matrix[m-i-1][col]);
+             //从下到上
+             for(int row=m-2-i;row>=i+1&&(n-1-j!=j);row--) //避免列重复
+             array.add(matrix[row][j]);
+            i++;
+            j++;
+         }
+         int len = array.size();
+         int[] res = new int[len];
+         for(int u=0;u<len;u++)
+         res[u] = array.get(u);
+        return res; 
+    }
+}
+```
+### 53 在排序数组中查找数字 I
+统计一个数字在排序数组中出现的次数。
+```
+class Solution {
+    public int search(int[] nums, int target) {
+        if(nums.length == 0) return 0;
+        int flag = binarysearch(nums,target);
+        if(flag==-1) return 0;
+        else{
+            int i=flag-1,j=flag+1,count=1;
+            while(i>=0&&nums[i]==target)
+            {
+                count++;
+                i--;
+            }
+            while(j<nums.length&&nums[j]==target)
+            {
+                count++;
+                j++;
+            }
+            return count;
+        }
+    }
+    public int binarysearch(int[] nums, int target){
+        if(nums.length==0) return -1;
+        int left = 0,right = nums.length-1;
+        int mid = 0;
+        while(left<=right)
+        {
+            mid = left+(right-left)/2;
+            if(nums[mid]>target) right = mid-1;
+            else if(nums[mid]<target) left = mid+1;
+            else return mid;
+        }
+        return -1;
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
