@@ -250,6 +250,37 @@ class MinStack {
  * int param_4 = obj.min();
  */
 ```
+### 59 滑动窗口最大值
+给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
+```
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if(nums.length<k||nums.length==0) return new int[0];
+        for(int i=k-1;i<nums.length;i++)
+        {
+            res.add(getmax(nums,i,k));
+        }
+        int len = res.size();
+        int[] result = new int[len];
+        for(int j=0;j<len;j++)
+        {
+            result[j] = res.get(j);
+        }
+        return result;
+    }
+    public int getmax(int[] nums,int i,int k)
+    {
+        int temp = Integer.MIN_VALUE;
+        for(int j=i-k+1;j<=i;j++)
+        {
+            if(nums[j]>temp)
+            temp = nums[j];
+        }
+        return temp;
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
