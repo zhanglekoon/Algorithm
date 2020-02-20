@@ -203,6 +203,53 @@ class CQueue {
  * int param_2 = obj.deleteHead();
  */
 ```
+### 30 包含min的最小栈
+定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
+```
+class MinStack {
+    //因为题目要求min的复杂度为o(1),则考虑利用辅助栈 辅助栈需要与存储栈数量相同，但栈顶要保持最小
+    /** initialize your data structure here. */
+    Stack<Integer> stack1;
+    Stack<Integer> stack2;
+    public MinStack() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+    
+    public void push(int x) {
+        stack1.push(x);
+        if(stack2.isEmpty())
+        stack2.push(x);
+        else
+        {
+            int temp = stack2.peek()>x?x:stack2.peek();
+            stack2.push(temp);
+        }
+    }
+    
+    public void pop() {
+        stack1.pop();
+        stack2.pop();
+    }
+    
+    public int top() {
+        return stack1.peek();
+    }
+    
+    public int min() {
+        return stack2.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */
+```
 # Leetcode笔记 
 ## 数组部分
 
