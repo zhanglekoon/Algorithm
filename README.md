@@ -327,6 +327,35 @@ class MaxQueue {
  * int param_3 = obj.pop_front();
  */
 ```
+## 堆 
+### 面试题40. 最小的k个数
+输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+```
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if(arr.length==0) return new int[0];
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>(){
+            @Override
+            public int compare(Integer a,Integer b){
+            return b-a;//降序
+            }
+
+        });
+        for(int a:arr)
+        {
+            queue.add(a);
+            if(queue.size()>k) queue.poll();
+        }
+        int[] res = new int[k];
+        for(int i=0;i<k;i++)
+        {
+            res[i] = queue.poll();
+        }
+        return res;
+
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
