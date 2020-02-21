@@ -281,6 +281,52 @@ class Solution {
     }
 }
 ```
+### 59 II. 队列的最大值
+请定义一个队列并实现函数 max_value 得到队列里的最大值，要求函数max_value、push_back 和 pop_front 的时间复杂度都是O(1)。
+
+若队列为空，pop_front 和 max_value 需要返回 -1
+
+```
+//注意双向队列的使用 
+class MaxQueue {
+    Queue<Integer> queue;
+    Deque<Integer> maxqueue;
+    public MaxQueue() {
+        queue = new ArrayDeque<>();
+        maxqueue = new ArrayDeque<>();
+    }
+    
+    public int max_value() {
+        if(maxqueue.isEmpty()) return -1;
+        return maxqueue.peek();
+    }
+    
+    public void push_back(int value) {
+        queue.add(value);
+        while(!maxqueue.isEmpty()&&maxqueue.getLast()<value)
+        {
+            maxqueue.pollLast();
+        }
+        maxqueue.add(value);
+    }
+    
+    public int pop_front() {
+        if(queue.isEmpty()) return -1;
+        int res = queue.poll();
+        if(maxqueue.peek()==res)
+       { maxqueue.poll();}
+        return res;
+    }
+}
+
+/**
+ * Your MaxQueue object will be instantiated and called as such:
+ * MaxQueue obj = new MaxQueue();
+ * int param_1 = obj.max_value();
+ * obj.push_back(value);
+ * int param_3 = obj.pop_front();
+ */
+```
 # Leetcode笔记 
 ## 数组部分
 
