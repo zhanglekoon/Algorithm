@@ -104,6 +104,33 @@ class Solution {
     }
 }
 ```
+### 面试题39. 数组中出现次数超过一半的数字
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+```
+class Solution {
+    public int majorityElement(int[] nums) {
+        if(nums.length==1) return nums[0];
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int res = 0;
+        for(int i:nums)
+        {
+            if(map.containsKey(i))
+           {
+            map.put(i,map.get(i)+1);
+            if(map.get(i)>nums.length/2)
+           {
+            res = i;
+            break;
+           } 
+           } 
+            else
+            map.put(i,1);
+        }
+        return res;
+    }
+}
+```
 ### 53 在排序数组中查找数字 I
 统计一个数字在排序数组中出现的次数。
 ```
