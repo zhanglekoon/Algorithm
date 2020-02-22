@@ -405,6 +405,56 @@ class MedianFinder {
  * double param_2 = obj.findMedian();
  */
 ```
+## 排序部分
+#### 面试题45. 把数组排成最小的数
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+```
+class Solution {
+    public String minNumber(int[] nums) {
+        if(nums.length==0) return "";
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            list.add(nums[i]);
+        }
+        //需要自定义比较方法，也可以使用Arrays.sort()方法
+        Collections.sort(list,new Comparator<Integer>(){
+            public int compare(Integer a,Integer b)
+            {
+                String x = a+""+b;
+                String y = b+""+a;
+                return x.compareTo(y);//注意类比之前的排序规则，记住comapre（）方法 a-b 默认升序 b-a 降序的区别
+
+            }
+        });
+        StringBuilder res = new StringBuilder();
+        for(int str:list)
+        {
+            res.append(str);
+        }
+        return res.toString();
+    }
+}
+```
+## 位操作
+### 面试题15. 二进制中1的个数
+请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
+```
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        //位操作的用法 n&(n-1) 会消除末尾最后一个1，直到n为0即可
+        if(n==0) return 0;
+        int count = 0;
+        while(n!=0)
+        {
+            count++;
+            n = n&(n-1);
+        }
+        return count;
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
