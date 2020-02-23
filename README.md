@@ -648,6 +648,41 @@ class Solution {
     }
 }
 ```
+### 面试题06. 从尾到头打印链表
+输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int[] reversePrint(ListNode head) {
+        if(head==null) return new int[0];
+        ListNode pre = head;
+        Stack<Integer> stack = new Stack<>();
+        ArrayList<Integer> arr = new ArrayList<>();
+        while(pre!=null)
+        {
+            stack.push(pre.val);
+            pre = pre.next;
+        }
+        while(!stack.isEmpty())
+        {
+            arr.add(stack.pop());
+        }
+        int[] res = new int[arr.size()];
+        for(int i=0;i<arr.size();i++)
+        {
+            res[i] = arr.get(i);
+        }
+        return res;
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
