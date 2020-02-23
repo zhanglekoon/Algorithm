@@ -510,6 +510,44 @@ class Solution {
     }
 }
 ```
+## 链表
+### 面试题18. 删除链表的节点
+给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
+
+返回删除后的链表的头节点。
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+        //引入假头 
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode first = pre;
+        ListNode second = head;
+        while(true)
+        {
+            if(second.val==val)
+            {
+                first.next = second.next;
+                break;     
+            }
+            else
+            {
+                first = first.next;
+                second = second.next; 
+            }
+        }
+        return pre.next; 
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
