@@ -608,6 +608,46 @@ public class Solution {
     }
 }
 ```
+### 复杂链表的复制
+请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
+
+```
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/ 利用hash表完成 复制工作 
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null) return head;
+        HashMap<Node,Node> hashmap = new HashMap<>();//旧节点  新节点
+        Node node1 = head;
+        while(node1!=null)
+        {
+            hashmap.put(node1,new Node(node1.val));
+           node1 = node1.next;
+        }
+        node1 = head;
+        while(node1!=null)
+        {
+           Node newNode = hashmap.get(node1);
+           newNode.next = hashmap.get(node1.next);
+           newNode.random = hashmap.get(node1.random);
+           node1 = node1.next;
+        }
+        return hashmap.get(head);
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
