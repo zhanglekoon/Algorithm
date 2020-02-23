@@ -579,6 +579,35 @@ class Solution {
     }
 }
 ```
+### 面试题52. 两个链表的第一个公共节点
+输入两个链表，找出它们的第一个公共节点。  
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+ //注意双指针法的应用  有的话联合遍历一遍总会相遇
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+         if (headA == null || headB == null) return null;
+        ListNode node1 = headA;
+        ListNode node2 = headB;
+        while(node1!=node2)
+        {
+            node1 = (node1 == null )? headB : node1.next;
+            node2 = (node2 == null )? headA : node2.next;
+        }
+        return node1;
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
