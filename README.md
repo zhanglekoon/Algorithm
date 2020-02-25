@@ -723,6 +723,54 @@ class Solution {
 }
 
 ```
+### 面试题20. 表示数值的字符串
+请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100"、"5e2"、"-123"、"3.1416"、"0123"及"-1E-16"都表示数值，但"12e"、"1a3.14"、"1.2.3"、"+-5"及"12e+5.4"都不是。
+
+```
+class Solution {
+    public boolean isNumber(String s) {
+        //核心问题是分开讨论 1.讨论数字类型（包括小数点） 2.讨论e指数问题
+        //清楚空格  注意放在第一步，不然如果trim之后为空 会出现out of range的错误
+        s = s.trim(); 
+        if(s.length()==0||s==null) return false;
+        int cnt = 0;//用做统计
+
+        //判断符号
+        if(s.charAt(cnt)=='+'||s.charAt(cnt)=='-')
+        {cnt++;}
+        int numcnt = 0;
+        int point = 0;
+        //讨论数字类型
+        while(cnt!=s.length()&&((s.charAt(cnt)>='0'&&s.charAt(cnt)<='9')||s.charAt(cnt)=='.'))
+        {
+            if(s.charAt(cnt)=='.') 
+            point++;
+            else
+            {numcnt++;}
+            cnt++;
+        }
+        //判断数字合法情况
+        if(point>1||numcnt<1)
+        return false;
+        if(cnt==s.length())
+        return true;
+        //判断e指数问题
+        if(s.charAt(cnt)=='e') //后面的判断都需要在s.charAt(cnt)=='e'的条件下
+       { cnt++;
+        if(cnt==s.length()) return false;
+        if(s.charAt(cnt)=='-'||s.charAt(cnt)=='+')
+        cnt++;
+        if(cnt==s.length()) return false;
+        while(cnt!=s.length()&&((s.charAt(cnt)>='0'&&s.charAt(cnt)<='9')))
+        {
+            cnt++;
+        }
+         if(cnt==s.length()) return true;
+         }
+         return false;//其他各种情况 
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
