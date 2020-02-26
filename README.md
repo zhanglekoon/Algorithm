@@ -683,6 +683,45 @@ class Solution {
     }
 }
 ```
+### 面试题25. 合并两个排序的链表
+输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1==null) return l2;
+        if(l2==null) return l1;
+        ListNode node = new ListNode(0);
+        ListNode res = node;
+        ListNode p = l1;
+        ListNode q = l2;
+        while(p!=null&&q!=null)
+        {
+            if(p.val<q.val)
+            {
+                res.next = p;
+                p = p.next;
+                res = res.next;
+            }
+            else
+            {
+                res.next = q;
+                q = q.next;
+                res = res.next;
+            }
+        }
+        res.next = p==null?q:p;
+        return node.next;
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
@@ -768,6 +807,80 @@ class Solution {
          if(cnt==s.length()) return true;
          }
          return false;//其他各种情况 
+    }
+}
+```
+### 10 面试题10- I. 斐波那契数列
+```
+//dp算法
+class Solution {
+    public int fib(int n) {
+        if(n==0) return 0;
+        if(n==1) return 1;
+        int[] dp = new int[n+1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for(int i=2;i<=n;i++)
+{
+    dp[i] = (dp[i-1]+dp[i-2])%1000000007;
+}
+return dp[n];
+    }
+}
+//
+class Solution {
+    public int fib(int n) {
+        if(n==0) return 0;
+        if(n==1) return 1;
+        int num1 = 0;
+        int num2 = 1;
+        int res = 0;
+        for(int i=2;i<=n;i++)
+{
+    res = (num1+num2)%1000000007;
+    num1 = num2;
+    num2 = res;
+}
+return res;
+    }
+}
+```
+### 面试题10- II. 青蛙跳台阶问题
+一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。
+
+答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+
+```
+class Solution {
+    public int numWays(int n) {
+        if(n==1) return 1;
+        if(n==0) return 1;
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for(int i=2;i<=n;i++)
+        {
+            dp[i] = (dp[i-1]+dp[i-2])%1000000007;
+        }
+        return dp[n];
+    }
+}
+```
+### 面试题42. 连续子数组的最大和
+输入一个整型数组，数组里有正数也有负数。数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
+
+要求时间复杂度为O(n)。
+```
+class Solution {
+    public int maxSubArray(int[] nums) {
+    int temp = nums[0];
+    int res =  nums[0];
+        for(int i=1;i<nums.length;i++)
+        {
+            temp = Math.max(temp+nums[i],nums[i]);
+            res = Math.max(temp,res);
+        }
+        return res;
     }
 }
 ```
