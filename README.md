@@ -122,6 +122,36 @@ class Solution {
     }
 }
 ```
+### 面试题21. 调整数组顺序使奇数位于偶数前面
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。
+```
+class Solution {
+    public int[] exchange(int[] nums) {
+        //利用双指针 left表示偶数（从头开始） right表示奇数（从后开始）
+        int left = 0;
+        int right = nums.length-1;
+        while(left<right)
+        {
+            if((nums[left]&1)!=0)// 一个数&1==0 代表其为偶数
+            {
+                left++;
+                continue;
+            }
+            if((nums[right]&1)!=1)
+            {
+                right--;
+                continue;
+            }
+            else
+            {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+            }
+        } 
+        return nums;    }
+}
+```
 ### 面试题39. 数组中出现次数超过一半的数字
 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
