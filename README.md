@@ -884,6 +884,74 @@ class Solution {
     }
 }
 ```
+### 面试题57. 和为s的两个数字
+输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
+```
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        if(nums.length==1) return new int[0];
+        int [] res = new int[2];
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(!map.containsKey(nums[i]))
+            {
+                map.put(nums[i],i);
+                if(map.containsKey(target-nums[i])&&map.get(target-nums[i])!=i)
+                {
+                    res[0] = nums[i];
+                    res[1] = target-nums[i];
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+### 面试题57 - II. 和为s的连续正数序列
+输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+
+序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+```
+class Solution {
+    public int[][] findContinuousSequence(int target) {
+        //利用双指针
+       List<int[]> res = new ArrayList<>();
+        int left = 1;
+        int right = 2;
+        int count = left+right;
+        while(left<right&&left<(target+1)/2)
+        {
+            if(count<target)
+            {
+                right++;
+                count +=right;
+            }
+            else if(count>target)
+            {
+                count -= left;
+                left++;
+            }
+            else
+            {
+                int [] temp = new int[right-left+1];
+                int j = left;
+                for(int i=0;i<right-left+1;i++,j++)
+                {
+                    temp[i] = j;
+                }
+                res.add(temp);
+                //加入之后看后面的
+                count -= left;
+                left++;
+            }
+        }
+     int[][] out = new int[res.size()][];
+     return res.toArray(out);
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
