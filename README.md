@@ -238,6 +238,18 @@ class Solution {
     }
 }
 ```
+### 面试题64. 求1+2+…+n
+求 1+2+...+n ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+```
+class Solution {
+    public int sumNums(int n) {
+        int sum = n;
+	//注意逻辑运算符的短路特性
+        boolean b = (n > 0) && ((sum += sumNums(n - 1)) > 0);
+        return sum;
+    }
+}
+```
 ## 栈
 ### 09 用两个栈实现队列
 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
