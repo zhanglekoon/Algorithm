@@ -250,6 +250,27 @@ class Solution {
     }
 }
 ```
+### 面试题58 - I. 翻转单词顺序
+输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. "，则输出"student. a am I"。
+
+```
+class Solution {
+    public String reverseWords(String s) {
+        String[] str = s.split(" ");
+        StringBuilder res = new StringBuilder();
+        for(int i=str.length-1;i>=0;i--)
+        {
+            String temp = str[i].trim();
+            if (!temp.equals(""))//注意split拆分之后有一些空字符串 可能会导致结果有多余的空格 所以此处作此判断 
+            {
+            res.append(temp);
+            res.append(' ');
+            }
+        }
+        return res.toString().trim();
+    }
+}
+```
 ## 栈
 ### 09 用两个栈实现队列
 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
@@ -1009,6 +1030,44 @@ class Solution {
         }
      int[][] out = new int[res.size()][];
      return res.toArray(out);
+    }
+}
+```
+### 面试题60. n个骰子的点数
+把n个骰子扔在地上，所有骰子朝上一面的点数之和为s。输入n，打印出s的所有可能的值出现的概率。
+你需要用一个浮点数数组返回答案，其中第 i 个元素代表这 n 个骰子所能掷出的点数集合中第 i 小的那个的概率。
+```
+class Solution {
+    public double[] twoSum(int n) {
+        //本题目本质是DP相关问题
+        //n个骰子可以取得数值为n-6*n
+        //递推关系式为dp[n][j] = 1/6(dp[n-1][j-1]+dp[n-1][j-2]+...+dp[n-1][j-6])
+        //dp[n]只与dp[n-1]的关系，假设此时和为j,dp[n][j]只能取1-6,概率分别为1/6,当取1的时候应该考虑dp[n-1][j-1],取2的时候应该考虑dp[n-1][j-2]，等等，全完之后则就是dp[n][j]
+        double[][] dp = new double[n+1][6*n+1];
+        double p = 1/6.0;
+        for(int i=1;i<=6;i++)
+        dp[1][i] = p;
+        //色子数
+        for(int i=2;i<=n;i++)
+        {
+            //计算概率,j的取值为i-6*n
+            for(int j=i;j<=6*n;j++)
+            {
+                for(int k=1;j-k>=0&&k<=6;k++)
+                dp[i][j] +=p*dp[i-1][j-k];
+            }
+        }
+        ArrayList<Double> res = new ArrayList<>();
+            for(int i=n;i<=6*n;i++)
+        {
+            res.add(dp[n][i]);
+        }
+      double[] result = new double[res.size()];
+      for(int i=0;i<res.size();i++)
+      {
+          result[i] = res.get(i);
+      }
+      return result;
     }
 }
 ```
