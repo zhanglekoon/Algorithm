@@ -271,6 +271,45 @@ class Solution {
     }
 }
 ```
+### 面试题61. 扑克牌中的顺子
+从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
+```
+class Solution {
+    public boolean isStraight(int[] nums) {
+        //对数组排序，然后关注0的个数，递增的数据若有空缺，则需要nums[i]-nums[i-1]-1个0来填充
+        if(nums.length!=5) return false;
+       ArrayList<Integer> arr = new ArrayList<>();
+       for(int i:nums)
+       {
+           arr.add(i);
+       }
+        Collections.sort(arr);
+        for(int i=0;i<5;i++)
+        {
+            nums[i] = arr.get(i);
+                    }
+        int zero = 0;
+        for(int i=0;i<5;i++)
+        {
+            if(nums[i]==0)
+            {
+                zero++;
+                continue;
+            }
+           else if((i>0)&&(nums[i]==nums[i-1]))
+           {
+            return false;
+           } 
+            else if((i>0)&&(nums[i-1]!=0))//注意此处的坑 nums[i-1]如果为0,则无需进行下面
+            {
+                zero -= nums[i]-nums[i-1]-1;
+            }
+        }
+        return zero>=0;
+    }
+}
+```
+
 ## 栈
 ### 09 用两个栈实现队列
 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
