@@ -512,6 +512,33 @@ class MaxQueue {
  * int param_3 = obj.pop_front();
  */
 ```
+### 面试题66. 构建乘积数组
+给定一个数组 A[0,1,…,n-1]，请构建一个数组 B[0,1,…,n-1]，其中 B 中的元素 B[i]=A[0]×A[1]×…×A[i-1]×A[i+1]×…×A[n-1]。不能使用除法。
+```
+class Solution {
+    public int[] constructArr(int[] a) {
+        int[] b = new int[a.length];
+        for(int i=0;i<a.length;i++)
+        {
+            b[i] = 1;
+        }
+    //两次遍历 一次从左到右，一次从右往左 保证乘到所有的东西
+    int left = 1;
+    for(int i=0;i<a.length;i++)
+    {
+        b[i] = left;//这样保证b[i]每次都取到0~i-1
+        left *= a[i];
+    }
+    int right = 1;
+    for(int j=a.length-1;j>=0;j--)
+    {
+        b[j] *= right;//之前的b[i]只计算了左半部分，还需要和右边的合并
+        right*= a[j];
+    }
+    return b;
+    }
+}
+```
 ## 堆 
 ### 面试题40. 最小的k个数
 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
