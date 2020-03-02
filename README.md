@@ -250,6 +250,30 @@ class Solution {
     }
 }
 ```
+### 面试题62. 圆圈中最后剩下的数字
+0,1,,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字。求出这个圆圈里剩下的最后一个数字。
+
+例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+```
+//寻找删除规律
+class Solution {
+    public int lastRemaining(int n, int m) {
+        if(n==0||m==0) return -1;
+        ArrayList<Integer> res = new ArrayList<>();
+        int clear = (m-1)%n;
+        for(int i=0;i<n;i++)
+        {
+            res.add(i);
+        }
+        while(res.size()>1)
+        {
+            res.remove(clear);
+            clear = (clear+m-1)%res.size();
+        }
+        return res.get(0);
+    }
+}
+```
 ### 面试题58 - I. 翻转单词顺序
 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. "，则输出"student. a am I"。
 
@@ -268,6 +292,20 @@ class Solution {
             }
         }
         return res.toString().trim();
+    }
+}
+```
+### 面试题65. 不用加减乘除做加法
+```
+不用加减乘除做加法的方法是使用按位异或和按位与运算。计算a + b等价于计算(a ^ b) + ((a & b) << 1)，其中((a & b) << 1)表示进位。因此令a等于(a & b) << 1，令b等于a ^ b，直到a变成0，然后返回b。
+class Solution {
+    public int add(int a, int b) {
+        while(a!=0){
+            int temp = a^b;
+            a =(a&b)<<1;
+            b = temp;
+        }
+        return b;
     }
 }
 ```
