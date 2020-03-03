@@ -994,6 +994,46 @@ class Solution {
     }
 }
 ```
+### 面试题32 - I. 从上到下打印二叉树
+从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int[] levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        ArrayList<Integer> arr = new ArrayList<>();
+        if(root==null) return new int[0];
+        queue.offer(root);
+        while(!queue.isEmpty())
+        {
+            int cnt = queue.size();
+            while(cnt-->0)
+            {
+                TreeNode temp = queue.poll();
+                arr.add(temp.val);
+                if(temp.left!=null)
+                queue.offer(temp.left); 
+                if(temp.right!=null)
+                queue.offer(temp.right);
+            }
+        }
+        int [] res = new int[arr.size()];
+        for(int i=0;i<arr.size();i++)
+        {
+            res[i] = arr.get(i);
+        }
+        return res;
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
