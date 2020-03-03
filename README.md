@@ -961,6 +961,39 @@ class Solution {
     }
 }
 ```
+### 面试题28. 对称的二叉树
+请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。 
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+// 递归出口 如果左子树和右子树是空的 返回true  若有一个为空一个不为空  或者两个不相等 则返回false  当左子树与右子树都是对称的 则二叉树是对称的
+    public boolean isSymmetric(TreeNode root) {
+        boolean res = true;
+        if(root==null) return res;
+        res = helper(root.left,root.right);
+        return res;
+    }
+    public boolean helper(TreeNode left,TreeNode right)
+    {
+        if(left==null&&right==null) return true;
+        if((left==null&&right!=null)||(left!=null&&right==null))
+        return false;
+        if(left.val!=right.val)
+        return false;
+        return helper(left.left,right.right)&& helper(left.right,right.left);
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
