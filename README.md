@@ -907,6 +907,60 @@ class Solution {
     }
 }
 ```
+## 二叉树
+面试题55 - I. 二叉树的深度
+输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+
+例如：
+
+给定二叉树 [3,9,20,null,null,15,7]，
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null) return 0;
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left,right)+1;
+    }
+}
+```
+###  面试题27. 二叉树的镜像
+
+请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        if(root==null) return null;//递归出口
+        //交换左右子树
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        //递归解决左子树和右子树
+        mirrorTree(root.left);
+        mirrorTree(root.right);
+        return root;
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
