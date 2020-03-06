@@ -1122,6 +1122,88 @@ class Solution {
 }
 
 ```
+### 面试题54. 二叉搜索树的第k大节点
+给定一棵二叉搜索树，请找出其中第k大的节点。
+
+注意中序遍历的特点，注意递归中对于变量的共享。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int count ;
+    int result = -1;
+    public int kthLargest(TreeNode root, int k) {
+        count = k;
+        helper(root);
+        return result;
+    }
+    //中序遍历二叉搜索树 先左后右 增序  先右后左 降序
+    public void helper(TreeNode root)
+    {
+        if(root.right!=null)
+        helper(root.right);
+        if(count==1)
+        {
+            result = root.val;
+            count--;
+            return;
+        }
+        count--;
+          if(root.left!=null)
+        helper(root.left);
+    }
+}
+```
+### 面试题68 - I. 二叉搜索树的最近公共祖先
+给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 递归版
+ class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (p.val<root.val && q.val<root.val){
+            return lowestCommonAncestor(root.left,p,q);
+        }else if (p.val>root.val && q.val>root.val){
+            return lowestCommonAncestor(root.right,p,q);
+        }
+        return root;
+    }
+}
+迭代版
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while(root!=null)
+        {
+            if((p.val<root.val)&&(q.val<root.val))
+            root = root.left;
+            else if((p.val>root.val)&&(q.val>root.val))
+            root = root.right;
+            else 
+            break;
+        }
+        return root;
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
