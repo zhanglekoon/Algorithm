@@ -908,7 +908,7 @@ class Solution {
 }
 ```
 ## 二叉树
-面试题55 - I. 二叉树的深度
+### 面试题55 - I. 二叉树的深度
 输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
 
 例如：
@@ -930,6 +930,37 @@ class Solution {
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
         return Math.max(left,right)+1;
+    }
+}
+```
+### 面试题55 - II. 平衡二叉树
+输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        //因为深度是int 所以做如此转换
+        return depth(root)>=0;
+    }
+    //求深度的变形  在求深度的同时 比较一下左右子树的高度差即可 
+    public int depth(TreeNode root){
+        if(root==null)
+        return 0;
+        int l = depth(root.left);
+        int r = depth(root.right);
+        if(l<0||r<0)
+        return -1;
+        if(Math.abs(l-r)>1)
+        return -1;
+        return Math.max(l,r)+1;
     }
 }
 ```
