@@ -1034,6 +1034,94 @@ class Solution {
     }
 }
 ```
+### 面试题32 - II. 从上到下打印二叉树 II
+从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+
+ 
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root==null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty())
+        {
+            int size = queue.size();//每层的节点个数
+            List<Integer> temp = new ArrayList<>();//存放临时变量
+            for(int i=0;i<size;i++)
+            {
+                TreeNode node = queue.poll();
+                temp.add(node.val);
+                if(node.left!=null)
+                queue.add(node.left);
+                if(node.right!=null)
+                queue.add(node.right);
+            }
+            res.add(temp);//存放此层的数据
+        }
+        return res;
+    }
+}
+```
+### 面试题32 - III. 从上到下打印二叉树 III
+请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>>  res = new ArrayList<>();
+        if(root==null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        boolean flag = true;//标记行数
+        while(!queue.isEmpty())
+        {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            
+            for(int i=0;i<size;i++)
+            {
+                TreeNode node = queue.poll();
+                list.add(node.val);
+                if(node.left!=null)
+                queue.add(node.left);
+                if(node.right!=null)
+                queue.add(node.right);
+            }
+            if(flag==true)
+            {
+            res.add(list);
+            flag = false;
+            }
+            else{
+        Collections.reverse(list);
+            res.add(list);
+            flag = true;
+            }
+        }
+        return res;
+    }
+}
+
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
