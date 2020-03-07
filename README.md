@@ -700,6 +700,26 @@ class Solution {
     }
 }
 ```
+### 面试题56 - II. 数组中数字出现的次数 II
+在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。
+```
+class Solution {
+    public int singleNumber(int[] nums) {
+    //按位运算  整理每一位  对3取模则为剩下的值  所有位加起来则为res
+        int res = 0;
+        for(int i=0;i<32;i++)
+        {
+            int count = 0;//每一位清零
+            for(int t:nums)
+            {
+                if(((t>>i)&1)==1) count++;
+            }
+            res += (count%3)<<i;
+        }
+        return res;
+    }
+}
+```
 ## 哈希表
 ###  面试题50. 第一个只出现一次的字符
 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。
