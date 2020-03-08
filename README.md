@@ -435,6 +435,33 @@ class MinStack {
  * int param_4 = obj.min();
  */
 ```
+### 面试题31. 栈的压入、弹出序列
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。
+
+思路很简单，我们尝试按照 popped 中的顺序模拟一下出栈操作，如果符合则返回 true，否则返回 false。这里用到的贪心法则是如果栈顶元素等于 popped 序列中下一个要 pop 的值，则应立刻将该值 pop 出来。
+
+我们使用一个栈 st 来模拟该操作。将 pushed 数组中的每个数依次入栈，同时判断这个数是不是 popped 数组中下一个要 pop 的值，如果是就把它 pop 出来。最后检查栈是否为空。
+
+```
+贪心算法  
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> stack = new Stack<>();
+        int len = popped.length;
+        int j = 0;
+        for(int i=0;i<len;i++)
+        {
+            stack.push(pushed[i]);
+            while(!stack.isEmpty()&&j<len&& (popped[j]==stack.peek()))
+            {
+                stack.pop();
+                j++;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+```
 ### 59 滑动窗口最大值
 给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
 ```
@@ -2595,7 +2622,8 @@ class Solution {
 
 ```
 ### 50 pow(x,n)
-### 暴力法求解无论是递归还是非递归都会有问题  栈溢出或者超时 所以需要采用的方法为奇偶分离  如果为偶数 xn=x(n/2)*x(n/2)如果为奇数，则为xn=x(n-1)/2 x(n-1)/2 x 
+### 暴力法求解无论是递归还是非递归都会有问题  
+栈溢出或者超时 所以需要采用的方法为奇偶分离  如果为偶数 xn=x(n/2)*x(n/2)如果为奇数，则为xn=x(n-1)/2 x(n-1)/2 x 
 ```
 class Solution {
     public double myPow(double x, int n) {
