@@ -1353,6 +1353,38 @@ class Solution {
     }
 }
 ```
+###  面试题07. 重建二叉树
+输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if((preorder.length==0)||preorder==null) return null;
+        return helper(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
+    }
+    public TreeNode helper(int[] preorder,int a1,int a2,int[] inorder,int b1,int b2)
+    {
+        TreeNode root = new TreeNode(preorder[a1]);//此时的根节点
+        int i = b1;//从inorder中寻找前序的第一个节点位置
+        while(preorder[a1]!=inorder[i])i++; //找到inorder中的值
+        int left = i-b1;//按照i点将中序结果分为两半 左边为左子树 右边为右子树
+        int right = b2-i;
+        if(left>0)
+        root.left = helper(preorder,a1+1,a1+left,inorder,b1,i-1);//给左子树递归求值 注意preorder需要去掉a1，inorder需要去掉i元素。
+        if(right>0)
+        root.right = helper(preorder,a1+1+left,a2,inorder,i+1,b2);
+        return root;
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
