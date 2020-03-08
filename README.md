@@ -1621,6 +1621,78 @@ class Solution {
     }
 }
 ```
+### 面试题47. 礼物的最大价值
+
+在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+
+```
+class Solution {
+    public int maxValue(int[][] grid) {
+        if(grid==null) return 0;
+        int row = grid.length;
+        int col = grid[0].length;
+        //更新边界值
+        for(int i=1;i<row;i++)
+        {
+            grid[i][0] += grid[i-1][0]; 
+        }
+        for(int i=1;i<col;i++)
+        {
+            grid[0][i] += grid[0][i-1]; 
+        }
+        for(int i=1;i<row;i++)
+        {
+            for(int j=1;j<col;j++)
+            {
+                grid[i][j] += Math.max(grid[i-1][j],grid[i][j-1]);
+            }
+        }
+        return grid[row-1][col-1];
+    }
+}
+```
+### 面试题63. 股票的最大利润
+假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖该股票一次可能获得的最大利润是多少？
+```
+class Solution {
+    public int maxProfit(int[] prices) {
+        //dp dp[i] = dp[i-1] + price[i]-price[i-1] 
+        //今天的最大利润等于昨天的最大利润+昨天与今天的差价
+        if(prices.length==0) return 0;
+        int [] dp = new int[prices.length];
+        int result = 0;
+        dp[0] = 0;
+        for(int i=1;i<dp.length;i++)
+        {
+            dp[i] = dp[i-1]+prices[i]-prices[i-1];
+            dp[i] = dp[i]>0?dp[i]:0;
+            result = Math.max(result,dp[i]);
+        }
+        return result;
+    }
+}
+```
+### 面试题49. 丑数
+我们把只包含因子 2、3 和 5 的数称作丑数（Ugly Number）。求按从小到大的顺序的第 n 个丑数。
+```
+class Solution {
+    public int nthUglyNumber(int n) {
+        int p2=0,p3=0,p5=0;
+        //利用dp解决
+        if(n==1) return 1;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for(int i=1;i<n;i++)
+        {
+            dp[i] = Math.min(dp[p2]*2,Math.min(dp[p3]*3,dp[p5]*5));
+            if(dp[i]==dp[p2]*2) p2++;
+            if(dp[i]==dp[p3]*3) p3++;
+            if(dp[i]==dp[p5]*5) p5++;
+        }
+        return dp[n-1];
+    }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
@@ -2228,6 +2300,26 @@ public:
 };
 ```
 复杂度o(n)
+```
+方法3：dp
+class Solution {
+    public int maxProfit(int[] prices) {
+        //dp dp[i] = dp[i-1] + price[i]-price[i-1] 
+        //今天的最大利润等于昨天的最大利润+昨天与今天的差价
+        if(prices.length==0) return 0;
+        int [] dp = new int[prices.length];
+        int result = 0;
+        dp[0] = 0;
+        for(int i=1;i<dp.length;i++)
+        {
+            dp[i] = dp[i-1]+prices[i]-prices[i-1];
+            dp[i] = dp[i]>0?dp[i]:0;
+            result = Math.max(result,dp[i]);
+        }
+        return result;
+    }
+}
+```
 
 ### 卖股票的最佳时机II（可以多次买卖，让利润最大）
 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
