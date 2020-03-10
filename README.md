@@ -1412,6 +1412,97 @@ class Solution {
     }
 }
 ```
+### 面试题36. 二叉搜索树与双向链表
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。
+```
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    public Node pre = null;
+    public Node treeToDoublyList(Node root) {
+        //中序遍历 利用pre节点存储前一个节点 若此节点不为空 则将root的left也就是前一个节点的right指针变为root,此后pre指向root 继续进行此操作。      
+        if(root==null) return null;
+          Node head=root,tail=root;
+        while(head.left!=null) head = head.left;  //寻找最小的节点
+        while(tail.right!=null) tail= tail.right; //寻找最大的节点
+        helper(root);
+        head.left = tail;
+        tail.right = head;
+        return head;
+    }
+    public void helper(Node root)
+    {
+        if(root==null) return;
+        helper(root.left);
+        //中序遍历
+        root.left = pre;
+        if(pre!=null)
+        pre.right = root;
+        pre = root;
+        helper(root.right);
+    }
+}
+```
+### 面试题34. 二叉树中和为某一值的路径
+输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    if(root==null) return res;
+    helper(root,sum,new ArrayList<>());
+    return res;
+    }
+    public void helper(TreeNode node,int sum,List<Integer> list)
+    {
+        list.add(node.val);//添加节点值进入list
+        if((sum-node.val==0)&&(node.left==null)&&(node.right==null))
+        res.add(new ArrayList(list));
+        else
+        {
+            if(node.left!=null)
+            {
+                helper(node.left,sum-node.val,list);
+                list.remove(list.size()-1);
+            }
+            if(node.right!=null)
+            {
+                helper(node.right,sum-node.val,list);
+                list.remove(list.size()-1);
+            }
+
+        }
+    }
+}
+
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
