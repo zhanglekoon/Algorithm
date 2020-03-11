@@ -1503,6 +1503,45 @@ class Solution {
 }
 
 ```
+### 面试题33. 二叉搜索树的后序遍历序列
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。
+
+ 
+```
+class Solution {
+    //后序遍历最后一个一定是根
+    //二叉搜索数左子树比根小 右子树比根大
+    public boolean verifyPostorder(int[] postorder) {
+        if(postorder==null){
+            return false;
+        }
+        return partitioin(postorder, 0, postorder.length-1);
+    }
+
+    public boolean partitioin(int[] postorder, int left, int right){
+        if(left>=right){
+            return true;
+        }
+        int pivot = postorder[right];
+        int index = right-1;
+        while(index>=left && postorder[index]>pivot){
+            index--;
+        }
+        boolean isAllLess = true;
+        for(int i=index;i>=left;i--){
+            if(postorder[i]>pivot){
+                isAllLess = false;
+                break;
+            }
+        }
+        if(isAllLess==false){
+            return isAllLess;
+        }else{
+            return partitioin(postorder, left, index) && partitioin(postorder, index+1, right-1);
+        }
+    }
+}
+```
 ## 数学部分
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
