@@ -1843,6 +1843,30 @@ class Solution {
     }
 }
 ```
+### 面试题46. 把数字翻译成字符串
+给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
+
+```
+class Solution {
+    public int translateNum(int num) {
+        if(num<=9) return 1;
+        String s = String.valueOf(num);
+        int len = s.length();
+        int[] dp = new int[len+1];
+        dp[0] = 1; //从1开始计算dp  但是访问数组的时候需要下标减一
+        for(int i=1;i<=len;i++)
+        {
+            dp[i] +=dp[i-1];
+            if(i>1)
+            {
+           if(s.charAt(i-2)=='1'||(s.charAt(i-2)=='2'&&s.charAt(i-1)<'6'))
+                dp[i] +=dp[i-2];
+            }
+        }
+        return dp[len];
+    }
+}
+```
 ### 面试题38. 字符串的排列
 输入一个字符串，打印出该字符串中字符的所有排列。
 
