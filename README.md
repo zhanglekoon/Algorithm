@@ -1843,6 +1843,45 @@ class Solution {
     }
 }
 ```
+### 面试题38. 字符串的排列
+输入一个字符串，打印出该字符串中字符的所有排列。
+
+ 
+
+你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
+```
+//本质是全排列问题 第一个数与后面所有一一交换位置， 后面的根据递归采取同样的办法即可 hashse用于去重
+class Solution {
+   public  HashSet<String> set = new HashSet<>(); //用于去重
+    public String[] permutation(String s) {
+        //全排列问题就是递归问题
+        if(s==null) return new String[0];
+        char [] ch = s.toCharArray();
+        helper(ch,0);
+        return set.toArray(new String[0]);
+            }
+        public void helper(char[] s,int begin)
+        {
+            if(begin==s.length-1)
+            {
+                set.add(new String(s));
+                return;
+            }
+            for(int i=0;i<s.length;i++)
+            {
+                swap(s,begin,i);
+                helper(s,begin+1);
+                swap(s,i,begin);
+            }
+        }
+        public void swap(char[] s,int l,int r)
+        {
+            char temp = s[l];
+            s[l] = s[r];
+            s[r] = temp;
+        }
+}
+```
 # Leetcode笔记 
 ## 数组部分
 
