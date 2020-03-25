@@ -1543,6 +1543,47 @@ class Solution {
 }
 ```
 ## 数学部分
+### 面试题13. 机器人的运动范围
+地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+
+```
+class Solution {
+    private int res=0,k,m,n;//res设为全局变量方便递归更改 dfs很简单 就一条走到黑就行。
+    
+    private boolean[][] move; 
+    public int movingCount(int m, int n, int k) {
+        this.k = k;
+        this.m = m;
+        this.n = n;
+        move = new boolean[m][n];
+        dfs(0,0);
+        return res;
+    }
+    public void  dfs(int i,int j)
+    {
+        if(i>=0 && i<m && j>=0 && j<n && caculate(i)+caculate(j)<=k && !move[i][j])
+        {
+            res++;
+            move[i][j] = true;
+            dfs(i-1,j);
+            dfs(i+1,j);
+            dfs(i,j-1);
+            dfs(i,j+1);
+        }
+    }
+    //要记住 %10 可以拿到最后一位数字 /10可以拿到除去最后一位数字的部分
+    public int caculate(int num)
+    {
+        int tmp = 0;
+        while(num>0)
+        {
+            tmp += num%10;
+            num = num/10;
+        }
+        return tmp;
+    }
+}
+```
 ### 14 剪绳子I
 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
 ```
@@ -4609,6 +4650,7 @@ class Solution {
     }
 }
 ```
+
 ### 242 有效的字母异位词
 #### 保证每个符号出现次数一直
 ```
