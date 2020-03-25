@@ -1543,6 +1543,53 @@ class Solution {
 }
 ```
 ## 数学部分
+### 面试题12. 矩阵中的路径
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。
+
+[["a","b","c","e"],
+["s","f","c","s"],
+["a","d","e","e"]]
+
+但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。
+
+```
+class Solution {
+    public boolean exist(char[][] board, String word) {
+//dfs+回溯法
+    if(board.length==0||board[0].length==0||word.length()==0)
+    return false;
+    boolean[][] flags = new boolean[board.length][board[0].length];
+    for(int i=0;i<board.length;i++)
+    {
+        for(int j=0;j<board[0].length;j++)
+        {
+            if(find(board,i,j,flags,0,word))
+            return true;
+        }
+    }
+    return false;
+    }
+    public boolean find(char[][]board,int i,int j,boolean[][] flags,int count,String word)
+    {
+        //退出条件
+        if(count==word.length())
+        return true;
+        if(i>=0&&i<board.length && j>=0 && j<board[0].length && flags[i][j]==false && board[i][j]==word.charAt(count))
+        {
+        count++;
+        flags[i][j] = true;//标记来过了
+        if(find(board,i-1,j,flags,count,word)||find(board,i+1,j,flags,count,word)||find(board,i,j-1,flags,count,word)||find(board,i,j+1,flags,count,word))
+        return true;
+        else
+        {
+            count--;
+            flags[i][j] = false;
+        }
+        }
+        return false;
+    }
+}
+```
 ### 面试题13. 机器人的运动范围
 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
 
