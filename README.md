@@ -1780,6 +1780,29 @@ return res;
     }
 }
 ```
+### 面试题43. 1～n整数中1出现的次数
+输入一个整数 n ，求1～n这n个整数的十进制表示中1出现的次数。
+
+例如，输入12，1～12这些整数中包含1 的数字有1、10、11和12，1一共出现了5次。
+```
+class Solution {
+    public int countDigitOne(int n) {
+        if(n<=0) return 0;
+        String str = String.valueOf(n);
+        int flag = str.charAt(0)-'0';
+        int pow = (int)Math.pow(10,str.length()-1);
+        int last = n - flag*pow;
+        if(flag==1)
+        {
+            return countDigitOne(pow-1)+last+1+countDigitOne(last);
+        }
+        else
+        {
+            return flag*countDigitOne(pow-1)+pow+countDigitOne(last);
+        }
+    }
+}
+```
 ### 面试题10- II. 青蛙跳台阶问题
 一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。
 
