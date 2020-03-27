@@ -1542,6 +1542,33 @@ class Solution {
     }
 }
 ```
+### 26 面试题26. 树的子结构
+输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
+
+B是A的子结构， 即 A中有出现和B相同的结构和节点值。
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if(A==null||B==null) return false;
+        return iscur(A,B)||isSubStructure(A.left,B)||isSubStructure(A.right,B);
+    }
+    boolean iscur(TreeNode a,TreeNode b)
+    {
+        if(b==null) return true;
+        if(a==null|| a.val!=b.val) return false;
+        return  iscur(a.left,b.left) && iscur(a.right,b.right);
+    }
+}
+```
 ## 数学部分
 ### 面试题12. 矩阵中的路径
 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。
